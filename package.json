@@ -4,11 +4,13 @@
   "scripts": {
     "start": "webpack serve",
     "build": "webpack build --mode=production",
+    "watch": "webpack build --watch",
     "test": "npm run build"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.8"
+    "bootstrap": "^5.3.8",
+    "bootstrap-icons": "^1.13.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.5.5",

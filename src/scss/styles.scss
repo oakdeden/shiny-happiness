@@ -1,12 +1,119 @@
-// Bootstrap, with a few defaults customized.
-// Configuration has to happen in the `with (...)` block of the `@use` rule.
+// Our design tokens. Loaded first so its values are available to configure
+// Bootstrap below and to the site styles.
+@use "variables" as tokens;
+
+// Bootstrap, configured from the tokens above.
+// Configuration has to happen in the `with (...)` block of the `@use` rule,
+// and every name here must be a Bootstrap variable declared with `!default`.
 @use "bootstrap/scss/bootstrap" with (
-  $body-color: #333,
-  $body-bg: #fff,
-  $border-radius: .4rem,
-  $primary: #7952b3,
-  $success: #7952b3
+  // Palette
+  $gray-200: tokens.$gray-200,
+  $gray-400: tokens.$gray-400,
+  $gray-500: tokens.$gray-500,
+  $gray-600: tokens.$gray-600,
+  $gray-700: tokens.$gray-700,
+  $gray-800: tokens.$gray-800,
+  $blue: tokens.$blue,
+  $pink: tokens.$pink,
+  $green: tokens.$green,
+  $cyan: tokens.$cyan,
+
+  // Theme colors
+  $primary: tokens.$primary,
+  $secondary: tokens.$secondary,
+  $success: tokens.$success,
+  $info: tokens.$info,
+  $light: tokens.$light,
+  $dark: tokens.$dark,
+  $min-contrast-ratio: tokens.$min-contrast-ratio,
+
+  // Body
+  $body-color: tokens.$body-color,
+  $body-bg: tokens.$body-bg,
+
+  // Borders
+  $border-width: tokens.$border-width,
+  $border-radius: tokens.$border-radius,
+  $border-radius-lg: tokens.$border-radius-lg,
+  $border-radius-sm: tokens.$border-radius-sm,
+
+  // Typography
+  $font-family-sans-serif: tokens.$font-family-sans-serif,
+  $font-weight-base: tokens.$font-weight-base,
+  $headings-font-family: tokens.$headings-font-family,
+
+  // Tables
+  $table-hover-bg: tokens.$table-hover-bg,
+  $table-border-width: tokens.$table-border-width,
+  $table-border-color: tokens.$table-border-color,
+
+  // Forms
+  $input-border-color: tokens.$input-border-color,
+  $input-disabled-border-color: tokens.$input-disabled-border-color,
+  $input-focus-border-color: tokens.$input-focus-border-color,
+  $form-select-disabled-color: tokens.$form-select-disabled-color,
+  $form-select-disabled-border-color: tokens.$form-select-disabled-border-color,
+
+  // Dropdowns
+  $dropdown-border-color: tokens.$dropdown-border-color,
+  $dropdown-divider-bg: tokens.$dropdown-divider-bg,
+  $dropdown-link-hover-color: tokens.$dropdown-link-hover-color,
+  $dropdown-link-hover-bg: tokens.$dropdown-link-hover-bg,
+
+  // Nav & pagination
+  $nav-tabs-border-color: tokens.$nav-tabs-border-color,
+  $nav-tabs-link-hover-border-color: tokens.$nav-tabs-link-hover-border-color,
+  $nav-tabs-link-active-color: tokens.$nav-tabs-link-active-color,
+  $nav-tabs-link-active-border-color: tokens.$nav-tabs-link-active-border-color,
+  $pagination-border-color: tokens.$pagination-border-color,
+  $pagination-hover-color: tokens.$pagination-hover-color,
+  $pagination-hover-bg: tokens.$pagination-hover-bg,
+  $pagination-hover-border-color: tokens.$pagination-hover-border-color,
+  $pagination-disabled-color: tokens.$pagination-disabled-color,
+  $pagination-disabled-border-color: tokens.$pagination-disabled-border-color,
+
+  // Cards, popovers, badges
+  $card-border-width: tokens.$card-border-width,
+  $card-border-color: tokens.$card-border-color,
+  $popover-border-color: tokens.$popover-border-color,
+  $badge-padding-y: tokens.$badge-padding-y,
+  $badge-padding-x: tokens.$badge-padding-x,
+
+  // Toasts & modals
+  $toast-border-width: tokens.$toast-border-width,
+  $toast-border-color: tokens.$toast-border-color,
+  $toast-header-color: tokens.$toast-header-color,
+  $toast-header-border-color: tokens.$toast-header-border-color,
+  $modal-content-border-color: tokens.$modal-content-border-color,
+  $modal-header-border-color: tokens.$modal-header-border-color,
+
+  // Progress & list groups
+  $progress-bg: tokens.$progress-bg,
+  $progress-bar-bg: tokens.$progress-bar-bg,
+  $list-group-border-color: tokens.$list-group-border-color,
+  $list-group-hover-bg: tokens.$list-group-hover-bg,
+  $list-group-active-bg: tokens.$list-group-active-bg,
+  $list-group-action-color: tokens.$list-group-action-color,
+
+  // Breadcrumbs
+  $breadcrumb-padding-y: tokens.$breadcrumb-padding-y,
+  $breadcrumb-padding-x: tokens.$breadcrumb-padding-x,
+  $breadcrumb-divider-color: tokens.$breadcrumb-divider-color,
+  $breadcrumb-active-color: tokens.$breadcrumb-active-color,
+  $breadcrumb-border-radius: tokens.$breadcrumb-border-radius,
+
+  // Close button
+  $btn-close-color: tokens.$btn-close-color,
+  $btn-close-opacity: tokens.$btn-close-opacity,
+  $btn-close-hover-opacity: tokens.$btn-close-hover-opacity,
+  $btn-close-focus-shadow: tokens.$btn-close-focus-shadow
 );
 
 // Site styles
 @use "site";
+
+// Update the import directory to point to it‘s location within node_modules
+$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
+
+// Import the Sass files as usual
+@import "bootstrap-icons/font/bootstrap-icons";
