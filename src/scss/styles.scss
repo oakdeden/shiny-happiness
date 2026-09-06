@@ -1,18 +1,12 @@
-// Include functions first
-@import "bootstrap/scss/functions";
+// Bootstrap, with a few defaults customized.
+// Configuration has to happen in the `with (...)` block of the `@use` rule.
+@use "bootstrap/scss/bootstrap" with (
+  $body-color: #333,
+  $body-bg: #fff,
+  $border-radius: .4rem,
+  $primary: #7952b3,
+  $success: #7952b3
+);
 
-// Customize some defaults
-$body-color: #333;
-$body-bg: #fff;
-$border-radius: .4rem;
-$success: #7952b3;
-
-// Required
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
-@import "bootstrap/scss/utilities";
-@import "bootstrap/scss/root";
-@import "bootstrap/scss/reboot";
-
+// Site styles
+@use "site";
