@@ -1,11 +1,14 @@
 'use strict'
 
+const fs = require('fs')
 const path = require('path')
 const autoprefixer = require('autoprefixer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-// Every page in src/ that should be built and served
-const pages = ['index', 'lab2']
+// Every .html file directly in src/ becomes a page — drop a file in and it builds
+const pages = fs.readdirSync(path.resolve(__dirname, 'src'))
+  .filter(file => file.endsWith('.html'))
+  .map(file => path.basename(file, '.html'))
 
 module.exports = {
   mode: 'development',
