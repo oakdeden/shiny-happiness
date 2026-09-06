@@ -2,10 +2,25 @@
   "name": "vanilla-basic",
   "version": "1.0.0",
   "scripts": {
-    "start": "npm run start"
+    "start": "webpack serve",
+    "build": "webpack build --mode=production",
+    "test": "npm run build"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@tailwindcss/cli": "^4.3.3",
-    "tailwindcss": "^4.3.3"
+    "bootstrap": "^5.3.8"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.5.5",
+    "css-loader": "^7.1.5",
+    "html-webpack-plugin": "^5.6.8",
+    "postcss-loader": "^8.2.1",
+    "sass": "^1.104.0",
+    "sass-loader": "^16.0.8",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.110.3",
+    "webpack-cli": "^7.2.3",
+    "webpack-dev-server": "^5.2.6"
   }
 }
