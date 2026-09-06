@@ -1,5 +1,9 @@
-* {
-  font-family: Arial, Helvetica, sans-serif;
+@import 'tailwindcss';
+
+:root {
+  --c-bg: snow;
+  --c-scrollbar: lightsteelblue;
+  --c-scrollbar-hover: #000;
 }
 
 html, body {
