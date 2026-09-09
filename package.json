@@ -5,7 +5,11 @@
     "start": "webpack serve",
     "build": "webpack build --mode=production",
     "watch": "webpack build --watch",
-    "test": "npm run build"
+    "lint:css": "stylelint \"src/**/*.{scss,css}\"",
+    "lint:css:fix": "stylelint \"src/**/*.{scss,css}\" --fix",
+    "format": "prettier --write \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
+    "format:check": "prettier --check \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
+    "test": "npm run lint:css && npm run format:check && npm run build"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
@@ -18,9 +22,13 @@
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.6.8",
     "postcss-loader": "^8.2.1",
+    "prettier": "^3.9.6",
     "sass": "^1.104.0",
     "sass-loader": "^16.0.8",
     "style-loader": "^4.0.0",
+    "stylelint": "^17.15.0",
+    "stylelint-config-recess-order": "^7.8.0",
+    "stylelint-config-standard-scss": "^17.0.0",
     "webpack": "^5.110.3",
     "webpack-cli": "^7.2.3",
     "webpack-dev-server": "^5.2.6"

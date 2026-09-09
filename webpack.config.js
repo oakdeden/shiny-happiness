@@ -6,7 +6,8 @@ const autoprefixer = require('autoprefixer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 // Every .html file directly in src/ becomes a page — drop a file in and it builds
-const pages = fs.readdirSync(path.resolve(__dirname, 'src'))
+const pages = fs
+  .readdirSync(path.resolve(__dirname, 'src'))
   .filter(file => file.endsWith('.html'))
   .map(file => path.basename(file, '.html'))
 
@@ -24,10 +25,13 @@ module.exports = {
     port: 8080,
     hot: true
   },
-  plugins: pages.map(page => new HtmlWebpackPlugin({
-    template: `./src/${page}.html`,
-    filename: `${page}.html`
-  })),
+  plugins: pages.map(
+    page =>
+      new HtmlWebpackPlugin({
+        template: `./src/${page}.html`,
+        filename: `${page}.html`
+      })
+  ),
   module: {
     rules: [
       {
@@ -55,9 +59,7 @@ module.exports = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  autoprefixer
-                ]
+                plugins: [autoprefixer]
               }
             }
           },

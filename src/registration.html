@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Registration Form</title>
+</head>
+
+<body>
+
+    <form class="row g-3">
+        <div class="mb-3">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="inputName" class="form-label">Name</label>
+                    <input type="text" class="form-control" placeholder="Name" aria-label="Name" required
+                        maxlength="70">
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="inputPassword4" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password" required>
+                </div>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="inputEmail3" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" required>
+                </div>
+            </div>
+            <div class="col">
+                <label class="form-label" for="inlineFormSelectPref">T-Shirt Size</label>
+                <select class="form-select" id="inlineFormSelectPref">
+                    <option selected>Choose...</option>
+                    <option value="1">S</option>
+                    <option value="2">M</option>
+                    <option value="3">L</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Recieve Emails?</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            Yes
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                        <label class="form-check-label" for="gridRadios2">
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Choose sessions</label>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                        <label class="form-check-label" for="gridCheck">
+                            Morning
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                        <label class="form-check-label" for="gridCheck">
+                            Afternoon
+                        </label>
+                    </div>
+                </div>
+                <div class="form-text-area">
+                    <label class="form-label">Special Requests</label>
+                    <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+    </div>
+    </div>
+    </form>
+</body>
+
+</html>

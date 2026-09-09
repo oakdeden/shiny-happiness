@@ -11,6 +11,18 @@ npm start     # dev server with hot reload at http://localhost:8080
 npm run build # production build into dist/
 ```
 
+## Linting and formatting
+
+```bash
+npm run lint:css      # stylelint the Sass
+npm run lint:css:fix  # ...and autofix what it can
+npm run format        # prettier --write over src/ and the config files
+npm test              # lint + format check + production build
+```
+
+[stylelint.config.js](stylelint.config.js) extends `stylelint-config-standard-scss` and sorts
+properties into Recess order. Prettier's settings are in [.prettierrc.json](.prettierrc.json).
+
 Open <http://localhost:8080/> for the assignments index and
 <http://localhost:8080/lab2.html> for Lab 2.
 

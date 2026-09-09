@@ -1,107 +1,117 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 2 &mdash; HTML and CSS</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 2 &mdash; HTML and CSS</title>
-</head>
+  <body>
+    <header class="site-header">
+      <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+        <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+        <nav class="nav">
+          <a class="nav-link" href="./labs.html">Labs</a>
+          <a class="nav-link" href="./quizzes.html">Quizzes</a>
+          <a class="nav-link" href="./info.html">Information</a>
+        </nav>
+      </div>
+    </header>
 
-<body>
-  <header class="site-header">
-    <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
-      <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
-      <nav class="nav">
-        <a class="nav-link" href="./labs.html">Labs</a>
-        <a class="nav-link" href="./quizzes.html">Quizzes</a>
-        <a class="nav-link" href="./info.html">Information</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container py-4">
-    <div id="page-header">
-      <h1>HTML and CSS</h1>
-    </div>
-
-    <section>
-      <!-- Favorite movie -->
-      <div class="favorite-section">
-        <h2 id="favorite-movie-heading">Favorite Movie: <cite>What Dreams May Come</cite></h2>
-        <p>
-          <cite>What Dreams May Come</cite> is a 1998 American fantasy drama film directed by Vincent Ward
-          and adapted by Ronald Bass from the 1978 novel by Richard Matheson. Starring Robin Williams,
-          Annabella Sciorra, and Cuba Gooding Jr., it won the Academy Award for Best Visual Effects and the
-          Art Directors Guild Award for Excellence in Production Design. It was also nominated for the
-          Academy Award for Best Art Direction. The title is from a line in Hamlet's "To be, or not to be"
-          soliloquy. The film was released by PolyGram Filmed Entertainment on October 2, 1998 and received
-          mixed reviews, with praise for its scenery but criticism for the plot. It was a box-office bomb,
-          grossing only $75.4 million against a budget of $85&ndash;90 million.
-        </p>
-        <a href="https://en.wikipedia.org/wiki/What_Dreams_May_Come_(film)">Read more on Wikipedia</a>
+    <main class="container py-4">
+      <div id="page-header">
+        <h1>HTML and CSS</h1>
       </div>
 
-      <!-- Favorite band / music artist -->
-      <div class="favorite-section">
-        <h2>Favorite Music Artist</h2>
-        <p>
-          I have a large range of music that I listen to on a daily basis. So I'm going to use this time to plug my husbands music.
-          <strong>Dan Arboleda</strong> is my favorite artist to put on while I work. 
-        </p>
-        <!-- TODO: swap in the artist's real website URL -->
-        <a href="https://soundcloud.com/insomnissippi">Insomnissippi Music Page</a>
+      <section>
+        <!-- Favorite movie -->
+        <div class="favorite-section">
+          <h2 id="favorite-movie-heading">Favorite Movie: <cite>What Dreams May Come</cite></h2>
+          <p>
+            <cite>What Dreams May Come</cite> is a 1998 American fantasy drama film directed by
+            Vincent Ward and adapted by Ronald Bass from the 1978 novel by Richard Matheson.
+            Starring Robin Williams, Annabella Sciorra, and Cuba Gooding Jr., it won the Academy
+            Award for Best Visual Effects and the Art Directors Guild Award for Excellence in
+            Production Design. It was also nominated for the Academy Award for Best Art Direction.
+            The title is from a line in Hamlet's "To be, or not to be" soliloquy. The film was
+            released by PolyGram Filmed Entertainment on October 2, 1998 and received mixed reviews,
+            with praise for its scenery but criticism for the plot. It was a box-office bomb,
+            grossing only $75.4 million against a budget of $85&ndash;90 million.
+          </p>
+          <a href="https://en.wikipedia.org/wiki/What_Dreams_May_Come_(film)"
+            >Read more on Wikipedia</a
+          >
+        </div>
+
+        <!-- Favorite band / music artist -->
+        <div class="favorite-section">
+          <h2>Favorite Music Artist</h2>
+          <p>
+            I have a large range of music that I listen to on a daily basis. So I'm going to use
+            this time to plug my husbands music.
+            <strong>Dan Arboleda</strong> is my favorite artist to put on while I work.
+          </p>
+          <!-- TODO: swap in the artist's real website URL -->
+          <a href="https://soundcloud.com/insomnissippi">Insomnissippi Music Page</a>
+        </div>
+
+        <!-- Favorite foods -->
+        <div class="favorite-section">
+          <h2>Favorite Foods</h2>
+          <ul>
+            <li id="most-favorite-food">Indian</li>
+            <li>Mexican</li>
+            <li>Korean</li>
+          </ul>
+        </div>
+
+        <!-- Favorite movies, as a table -->
+        <div class="favorite-section">
+          <h2>Two Favorite Movies Compared</h2>
+          <table class="table table-striped table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Year</th>
+                <th scope="col">Director</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">What Dreams May Come</th>
+                <td>1998</td>
+                <td>Vincent Ward</td>
+              </tr>
+              <tr>
+                <th scope="row">Good Will Hunting</th>
+                <td>1997</td>
+                <td>Gus Van Sant</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Favorite images -->
+        <div class="favorite-section">
+          <h2>Favorite Images</h2>
+          <img
+            src="./assets/img/svg/film-reel.svg"
+            class="fav-image"
+            alt="Illustration of a film reel strip, for my favorite movies"
+          />
+          <img
+            src="./assets/img/svg/icons8-github.svg"
+            class="fav-image"
+            alt="The GitHub logo, where this site's source code lives"
+          />
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p class="mb-0"><a href="index.html">Back to all labs</a></p>
       </div>
-
-      <!-- Favorite foods -->
-      <div class="favorite-section">
-        <h2>Favorite Foods</h2>
-        <ul>
-          <li id="most-favorite-food">Indian</li>
-          <li>Mexican</li>
-          <li>Korean</li>
-        </ul>
-      </div>
-
-      <!-- Favorite movies, as a table -->
-      <div class="favorite-section">
-        <h2>Two Favorite Movies Compared</h2>
-        <table class="table table-striped table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th scope="col">Title</th>
-              <th scope="col">Year</th>
-              <th scope="col">Director</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">What Dreams May Come</th>
-              <td>1998</td>
-              <td>Vincent Ward</td>
-            </tr>
-            <tr>
-              <th scope="row">Good Will Hunting</th>
-              <td>1997</td>
-              <td>Gus Van Sant</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Favorite images -->
-      <div class="favorite-section">
-        <h2>Favorite Images</h2>
-        <img src="./assets/img/svg/film-reel.svg" class="fav-image" alt="Illustration of a film reel strip, for my favorite movies">
-        <img src="./assets/img/svg/icons8-github.svg" class="fav-image" alt="The GitHub logo, where this site's source code lives">
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p class="mb-0"><a href="index.html">Back to all labs</a></p>
-    </div>
-  </footer>
-</body>
-
+    </footer>
+  </body>
 </html>
