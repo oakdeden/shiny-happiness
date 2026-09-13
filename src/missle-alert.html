@@ -3,10 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet">
     <title>Feedback</title>
   </head>
   <body>
-    <div class="container">
+    <header class="site-header">
+      <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+          <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+          <nav class="nav">
+              <a class="nav-link" href="./labs.html">Labs</a>
+              <a class="nav-link" href="./quizzes.html">Quizzes</a>
+              <a class="nav-link" href="./info.html">Information</a>
+          </nav>
+      </div>
+  </header>
+    <main class="container">
         <h1>Missile Alert</h1>
         <p>This is a missile alert</p>
         <button class="btn btn-warning btn-lg" type="submit" value="Submit" id="missileTest" onclick="alert('Missile test')"/>
@@ -16,11 +30,12 @@
           <span aria-hidden="true">Test</span>
         </button> 
 
-    </div>
-  </body>
+    </main>
   <footer class="site-footer">
     <div class="container">
       <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+      <p class="mb-0"><a href="javascript:void(0)" onclick="goBack()">Back</a></p>
     </div>
   </footer>
+</body>
 </html>

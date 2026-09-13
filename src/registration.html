@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet">
 
     <title>Conference Registration Form</title>
 </head>
@@ -23,7 +27,7 @@
     <main class="container py-4">
         <h1>Conference Registration Form</h1>
 
-        <form class="row g-3">
+        <form class="row g-3 needs-validation" novalidate>
             <div class="col-md-6">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" name="name" maxlength="70" required>
@@ -92,9 +96,9 @@
     <footer class="site-footer">
         <div class="container">
             <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+            <p class="mb-0"><a href="#" onclick="goBack(); return false;">Back</a></p>
         </div>
     </footer>
-
 </body>
 
 </html>

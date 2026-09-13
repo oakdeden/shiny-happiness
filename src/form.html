@@ -25,7 +25,7 @@
 
   <main class="container py-4">
     <h1>Student Feedback Form</h1>
-    <form class="row g-3">
+    <form class="row g-3 needs-validation" novalidate>
       <div class="mb-3">
         <div class="row g-3">
           <div class="col-md-6">
@@ -39,13 +39,16 @@
             <input type="email" class="form-control" id="inputEmail3" placeholder="Email" >
           </div>
         </div>
-        <div class="form-text-area" required>
+        <div class="form-text-area">
           <label class="form-label">Comments</label>
-          <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+          <textarea class="form-control" id="form4Example3" rows="4" required></textarea>
+          <div class="invalid-feedback">
+            Please enter your comments.
+          </div>
         </div>
 
         <div class="row g-3">
-        <div class="col-md-6">`
+        <div class="col-md-6">
           <label class="form-label">Are you a current student?</label>
 
           <div class="form-check">
@@ -73,6 +76,8 @@
   <footer class="site-footer">
     <div class="container">
       <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+      <p class="mb-0"><a href="#" onclick="goBack(); return false;">Back</a></p>
+
     </div>
   </footer>
 </body>
