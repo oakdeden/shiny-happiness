@@ -1,10 +1,80 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Feedback</title>
-  </head>
 
-  <body></body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+    rel="stylesheet">
+  <title>Student Feedback Form</title>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+      <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+      <nav class="nav">
+        <a class="nav-link" href="./labs.html">Labs</a>
+        <a class="nav-link" href="./quizzes.html">Quizzes</a>
+        <a class="nav-link" href="./info.html">Information</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container py-4">
+    <h1>Student Feedback Form</h1>
+    <form class="row g-3">
+      <div class="mb-3">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="inputName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="inputName" placeholder="Name" aria-label="Name">
+          </div>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="inputEmail3" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail3" placeholder="Email" >
+          </div>
+        </div>
+        <div class="form-text-area" required>
+          <label class="form-label">Comments</label>
+          <textarea class="form-control" id="form4Example3" rows="4"></textarea>
+        </div>
+
+        <div class="row g-3">
+        <div class="col-md-6">`
+          <label class="form-label">Are you a current student?</label>
+
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck" checked>
+            <label class="form-check-label" for="gridCheck" >
+              Yes
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="gridCheck">
+            <label class="form-check-label" for="gridCheck">
+              No
+            </label>
+          </div>
+          </div>
+        </div>
+
+      </div>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </main>
+  <footer class="site-footer">
+    <div class="container">
+      <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+    </div>
+  </footer>
+</body>
+
 </html>

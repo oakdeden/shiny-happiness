@@ -5,88 +5,96 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Registration Form</title>
+    <title>Conference Registration Form</title>
 </head>
 
 <body>
+    <header class="site-header">
+        <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+            <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+            <nav class="nav">
+                <a class="nav-link" href="./labs.html">Labs</a>
+                <a class="nav-link" href="./quizzes.html">Quizzes</a>
+                <a class="nav-link" href="./info.html">Information</a>
+            </nav>
+        </div>
+    </header>
 
-    <form class="row g-3">
-        <div class="mb-3">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="inputName" class="form-label">Name</label>
-                    <input type="text" class="form-control" placeholder="Name" aria-label="Name" required
-                        maxlength="70">
-                </div>
+    <main class="container py-4">
+        <h1>Conference Registration Form</h1>
+
+        <form class="row g-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" name="name" maxlength="70" required>
             </div>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="inputPassword4" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password" required>
-                </div>
+
+            <div class="col-md-6">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="inputEmail3" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" required>
-                </div>
+
+            <div class="col-md-6">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
-            <div class="col">
-                <label class="form-label" for="inlineFormSelectPref">T-Shirt Size</label>
-                <select class="form-select" id="inlineFormSelectPref">
-                    <option selected>Choose...</option>
-                    <option value="1">S</option>
-                    <option value="2">M</option>
-                    <option value="3">L</option>
+
+            <div class="col-md-6">
+                <label for="tshirt" class="form-label">T-shirt Size</label>
+                <select class="form-select" id="tshirt" name="tshirt" required>
+                    <option value="">Choose...</option>
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
                 </select>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label class="form-label">Recieve Emails?</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            Yes
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-                        <label class="form-check-label" for="gridRadios2">
-                            No
-                        </label>
-                    </div>
-                </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Choose sessions</label>
-
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck">
-                            Morning
-                        </label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck">
-                            Afternoon
-                        </label>
-                    </div>
-                </div>
-                <div class="form-text-area">
-                    <label class="form-label">Special Requests</label>
-                    <textarea class="form-control" id="form4Example3" rows="4"></textarea>
-                </div>
-
+            <div class="col-md-6">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="dob" required>
             </div>
+
+            <div class="col-md-6">
+                <p class="form-label mb-1">Receive email updates?</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="emailYes" name="emailUpdates" value="yes" required>
+                    <label class="form-check-label" for="emailYes">Yes</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="emailNo" name="emailUpdates" value="no" required>
+                    <label class="form-check-label" for="emailNo">No</label>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <p class="form-label mb-1">Choose sessions</p>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="morning" name="sessions" value="morning">
+                    <label class="form-check-label" for="morning">Morning</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="afternoon" name="sessions" value="afternoon">
+                    <label class="form-check-label" for="afternoon">Afternoon</label>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="requests" class="form-label">Special Requests</label>
+                <textarea class="form-control" id="requests" name="requests" rows="7" cols="70"></textarea>
+            </div>
+
+            <div class="col-12">
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+        </form>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
         </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </form>
-    </div>
-    </div>
-    </form>
+    </footer>
+
 </body>
 
 </html>
