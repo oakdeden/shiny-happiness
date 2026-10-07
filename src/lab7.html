@@ -2,8 +2,14 @@
 <html lang="en">
 
 <head>
-  <title>Tree Order Form</title>
-
+     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet">
+      <title>Lab 7</title>
+    
   <style>
     input,
     select {
@@ -33,6 +39,8 @@
     </div>
   </header>
   <main class="container py-4">
+    <section>
+      <h2> Part 1: Tree Order Form Validation (6 points)</h2>
     <h1>Minnesota Tree Order Form</h1>
 
     <p>Enter information to order your tree. All fields are required.</p>
@@ -86,149 +94,17 @@
       <!-- TODO Use JavaScript to display the order information, 
             only if all the required information is entered  -->
     </p>
+    </section>
+    <section>
+      <h2>Part 2: Conference Registration (6 points)</h2>
+    </section>
   </main>
   <footer class="site-footer">
     <div class="container">
       <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
     </div>
   </footer>
-
-  <script>
-
-    let homeownerNameInput = document.querySelector('#homeowner-name')
-    let homeownerHouseNumberInput = document.querySelector('#homeowner-house-number')
-    let homeownerStreetNameInput = document.querySelector('#homeowner-street-name')
-    let treeTypeSelect = document.querySelector('#tree-type')
-
-    // TODO create a variable for city input element
-    let cityInput = document.querySelector('#city')
-    // TODO create a variable for zip code input element
-    let zipCodeInput = document.querySelector('#zipcode')
-
-    let submitButton = document.querySelector('#submit-order')
-
-    let orderSummaryParagraph = document.querySelector('#order-summary')
-
-    submitButton.addEventListener('click', function () {
-      event.preventDefault();
-
-      let name = homeownerNameInput.value
-      let houseNumber = homeownerHouseNumberInput.value
-      let streetName = homeownerStreetNameInput.value
-      let treeType = treeTypeSelect.value
-
-
-      // TODO get the value from the input#city
-      let city = cityInput.value
-      // TODO get the value from the input#zipcode
-      let zipCode = zipCodeInput.value
-
-      // TODO Validate that all six input and select elements have been completed
-      //  - check they all have a value
-
-
-      // TODO Validate the zipcode is in the range 55001 and 56763. 
-      // to check that the zip code is in Minnesota.
-      // Make sure your script doesn't accept non-numeric input for the zip code. 
-      function isValidMinnesotaZip(zip) {
-        // Ensure the input is exactly 5 numeric digits
-        if (!/^\d{5}$/.test(zip)) {
-          return false;
-        }
-
-        const numericZip = Number(zip);
-        return numericZip >= 55001 && numericZip <= 56763;
-      }
-
-      // Optional extra: add the class .error to any inputs with an error (and only inputs with an error)
-      // to give the user visual feedback for which inputs need to be fixed or completed. 
-      // There's a style for input.error and select.error defined in the styles (in the head)
-      // which will be applied if you give the class .error to any elements on the page. 
-      // Make sure you remove this class when the form is completed correctly.
-
-      let errors = []
-      // Reset previous error styles
-      let formElements = [
-        homeownerNameInput,
-        homeownerHouseNumberInput,
-        homeownerStreetNameInput,
-        cityInput,
-        zipCodeInput,
-        treeTypeSelect
-      ]
-      formElements.forEach(element => element.classList.remove('error'))
-
-      // If a form element has not been completed, or if the data is not valid, 
-      // add an error message to the errors array. (Hint: use push to add to the end of the array)
-      // Add one error message for each problem with the form. 
-// Validate required fields
-      if (!name) {
-        errors.push('Homeowner Name is required.')
-        homeownerNameInput.classList.add('error')
-      }
-
-      if (!houseNumber) {
-        errors.push('House Number is required.')
-        homeownerHouseNumberInput.classList.add('error')
-      }
-
-      if (!streetName) {
-        errors.push('Street Name is required.')
-        homeownerStreetNameInput.classList.add('error')
-      }
-
-      if (!city) {
-        errors.push('City is required.')
-        cityInput.classList.add('error')
-      }
-
-      if (!treeType) {
-        errors.push('Please select a Tree Type.')
-        treeTypeSelect.classList.add('error')
-      }
-
-      // Validate Zip Code (presence, numeric format, and Minnesota range)
-      if (!zipCode) {
-        errors.push('Zip Code is required.')
-        zipCodeInput.classList.add('error')
-      } else if (!isValidMinnesotaZip(zipCode)) {
-        errors.push('Zip Code must be a 5-digit number between 55001 and 56763.')
-        zipCodeInput.classList.add('error')
-      }
-
-      // If there are errors, alert the user and stop execution
-      if (errors.length > 0) {
-        alert(errors.join('\n'))
-        orderSummaryParagraph.innerHTML = ''
-        return
-      }
-
-      // Display order summary if validation passes
-      let orderSummary = `Name: ${name}<br>House Number: ${houseNumber}<br>Street Name: ${streetName}<br>City: ${city}<br>Zip Code: ${zipCode}<br>Tree Type: ${treeType}`
-      orderSummaryParagraph.innerHTML = orderSummary
-    })
-
-
-      // TODO - If there are any errors after checking all of the input elements, 
-      // display an alert with all of the error messages. (Hint: use join)
-      // and then return from this function to prevent further processing 
-
-      if (errors.length > 0) {
-        alert(errors.join('\n'))
-        return
-      }
-
-      // TODO - If there are no errors, use a template string to display an order 
-      // summary in the order summary paragraph.
-      let orderSummary = `Name: ${name}<br>House Number: ${houseNumber}<br>Street Name: ${streetName}<br>City: ${city}<br>Zip Code: ${zipCode}<br>Tree Type: ${treeType}`
-
-
-    })
-
-
-
-  </script>
-
+<script src="tree-order.js"></script>
 </body>
 
 </html>

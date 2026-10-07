@@ -1,5 +1,6 @@
 // Import our custom CSS
 import '../scss/styles.scss'
+import '../js/form'
 
 // Import only the Bootstrap components we need
 import { Popover } from 'bootstrap'
@@ -38,3 +39,5 @@ window.goBack = function goBack() {
     }, false)
   })
 })()
+
+
