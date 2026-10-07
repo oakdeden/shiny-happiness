@@ -20,7 +20,16 @@
 
 </head>
 <body>
-
+    <header class="site-header">
+      <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+        <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+        <nav class="nav">
+          <a class="nav-link" href="labs.html">Labs</a>
+          <a class="nav-link" href="quizzes.html">Quizzes</a>
+          <a class="nav-link" href="info.html">Information</a>
+        </nav>
+      </div>
+    </header>
     <h1>Minnesota Tree Order Form</h1>
 
     <p>Enter information to order your tree. All fields are required.</p>
@@ -61,7 +70,11 @@
             only if all the required information is entered  -->
     </p>
     
-
+ <footer class="site-footer">
+      <div class="container">
+        <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+      </div>
+    </footer>
 
 <script>
 
@@ -71,7 +84,9 @@
     let treeTypeSelect = document.querySelector('#tree-type')
 
     // TODO create a variable for city input element
+    let cityInput = document.querySelector('#city')
     // TODO create a variable for zip code input element
+    let zipCodeInput = document.querySelector('#zipcode')
     
     let submitButton = document.querySelector('#submit-order')
 
@@ -83,6 +98,8 @@
         let houseNumber = homeownerHouseNumberInput.value
         let streetName = homeownerStreetNameInput.value
         let treeType = treeTypeSelect.value
+        let city = cityInput.value
+        let zipCode = zipCodeInput.value
 
         // TODO get the value from the input#city
         // TODO get the value from the input#zipcode
@@ -107,13 +124,19 @@
         // Add one error message for each problem with the form. 
 
         
+        
         // TODO - If there are any errors after checking all of the input elements, 
         // display an alert with all of the error messages. (Hint: use join)
         // and then return from this function to prevent further processing 
 
+        if (errors.length > 0) {
+            alert(errors.join('\n'))
+            return
+        }
 
         // TODO - If there are no errors, use a template string to display an order 
         // summary in the order summary paragraph.
+        let orderSummary = `Name: ${name}<br>House Number: ${houseNumber}<br>Street Name: ${streetName}<br>City: ${city}<br>Zip Code: ${zipCode}<br>Tree Type: ${treeType}`
 
         
     })
