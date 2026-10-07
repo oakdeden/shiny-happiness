@@ -88,7 +88,7 @@
             </div>
 
             <div class="col-12">
-                <input type="submit" class="btn btn-primary" value="Submit" onclick="SubmitEvent">
+                <button type="button" class="btn btn-primary" id="registerButton">Submit</button>
             </div>
         </form>
     </main>
@@ -99,7 +99,48 @@
             <p class="mb-0"><a href="#" onclick="goBack(); return false;">Back</a></p>
         </div>
     </footer>
-    <script src="./js/form.js"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+        document.querySelector('#registerButton').addEventListener('click', function () {
+            const form = document.querySelector('form');
+            const name = document.querySelector('#name');
+            const password = document.querySelector('#password');
+            const email = document.querySelector('#email');
+            const tShirt = document.querySelector('#tshirt');
+            const dateOfBirth = document.querySelector('#dob');
+            const morning = document.querySelector('#morning');
+            const afternoon = document.querySelector('#afternoon');
+            const specialRequests = document.querySelector('#requests');
+            const sessionsAttended = [];
+
+            if (morning.checked) sessionsAttended.push(morning.value);
+            if (afternoon.checked) sessionsAttended.push(afternoon.value);
+
+            if (!form.checkValidity() ||
+                !name.value.trim() ||
+                !password.value.trim() ||
+                !sessionsAttended.length) {
+                form.classList.add('was-validated');
+                alert('Please complete all required fields and select at least one session.');
+                return;
+            }
+
+            const registration = {
+                name: name.value,
+                password: password.value,
+                email: email.value,
+                tShirtSize: tShirt.value,
+                dateOfBirth: dateOfBirth.value,
+                receiveEmailUpdates: document.querySelector('#emailYes').checked,
+                sessionsAttended,
+                specialRequests: specialRequests.value
+            };
+
+            console.log(registration);
+        });
+    </script>
 </body>
 
 </html>
