@@ -48,18 +48,22 @@
         <input id="homeowner-house-number" name="homeowner-house-number">
       </div>
       <div class="col-md-6">
-        <label for="homeowner-street-name">Street Name</label><input id="homeowner-street-name"
+        <label for="homeowner-street-name">Street Name</label>
+        <input id="homeowner-street-name"
           name="homeowner-street-name">
       </div>
       <div class="col-md-6">
-        <label for="city">City</label><input id="city" name="city">
+        <label for="city">City</label>
+        <input id="city" name="city">
       </div>
       <div class="col-md-6">
         <!-- All orders must be for Minnesota, so this input is not editable -->
-        <label for="state">State</label><input id="state" name="state" value="Minnesota" disabled>
+        <label for="state">State</label>
+        <input id="state" name="state" value="Minnesota" disabled>
       </div>
       <div class="col-md-6">
-        <label for="zipcode">Zip Code</label><input id="zipcode" name="zipcode">
+        <label for="zipcode">Zip Code</label>
+        <input id="zipcode" name="zipcode">
       </div>
       <div class="col-md-6">
 
@@ -74,7 +78,7 @@
         </select>
       </div>
 
-      <button id="submit-order" onclick="submitButton">Submit Order</button>
+      <button class="btn btn-primary" id="submit-order" onclick="submitButton">Submit Order</button>
     </form>
     <h2>Order Summary</h2>
 
@@ -106,6 +110,7 @@
     let orderSummaryParagraph = document.querySelector('#order-summary')
 
     submitButton.addEventListener('click', function () {
+      event.preventDefault();
 
       let name = homeownerNameInput.value
       let houseNumber = homeownerHouseNumberInput.value
@@ -142,11 +147,66 @@
       // Make sure you remove this class when the form is completed correctly.
 
       let errors = []
+      // Reset previous error styles
+      let formElements = [
+        homeownerNameInput,
+        homeownerHouseNumberInput,
+        homeownerStreetNameInput,
+        cityInput,
+        zipCodeInput,
+        treeTypeSelect
+      ]
+      formElements.forEach(element => element.classList.remove('error'))
 
       // If a form element has not been completed, or if the data is not valid, 
       // add an error message to the errors array. (Hint: use push to add to the end of the array)
       // Add one error message for each problem with the form. 
+// Validate required fields
+      if (!name) {
+        errors.push('Homeowner Name is required.')
+        homeownerNameInput.classList.add('error')
+      }
 
+      if (!houseNumber) {
+        errors.push('House Number is required.')
+        homeownerHouseNumberInput.classList.add('error')
+      }
+
+      if (!streetName) {
+        errors.push('Street Name is required.')
+        homeownerStreetNameInput.classList.add('error')
+      }
+
+      if (!city) {
+        errors.push('City is required.')
+        cityInput.classList.add('error')
+      }
+
+      if (!treeType) {
+        errors.push('Please select a Tree Type.')
+        treeTypeSelect.classList.add('error')
+      }
+
+      // Validate Zip Code (presence, numeric format, and Minnesota range)
+      if (!zipCode) {
+        errors.push('Zip Code is required.')
+        zipCodeInput.classList.add('error')
+      } else if (!isValidMinnesotaZip(zipCode)) {
+        errors.push('Zip Code must be a 5-digit number between 55001 and 56763.')
+        zipCodeInput.classList.add('error')
+      }
+
+      // If there are errors, alert the user and stop execution
+      if (errors.length > 0) {
+        alert(errors.join('\n'))
+        orderSummaryParagraph.innerHTML = ''
+        return
+      }
+
+      // Display order summary if validation passes
+      let orderSummary = `Name: ${name}<br>House Number: ${houseNumber}<br>Street Name: ${streetName}<br>City: ${city}<br>Zip Code: ${zipCode}<br>Tree Type: ${treeType}`
+      orderSummaryParagraph.innerHTML = orderSummary
+    })
 
 
       // TODO - If there are any errors after checking all of the input elements, 
