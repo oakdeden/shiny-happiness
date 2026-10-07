@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minnesota</title>
+
+    <style>
+        #previewPopup {
+            visibility: hidden;
+            border: 1px gray solid;
+            position: absolute;
+            font-size: smaller;
+            background: whitesmoke;
+        }
+
+        #previewHTML {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Minnesota</h1>
+
+<p>Minnesota is a state in the <a class="page-preview-popup" href="https://en.wikipedia.org/wiki/Upper_Midwest">Upper Midwest</a>.
+    The largest city is <a class="page-preview-popup" href="https://en.wikipedia.org/wiki/Minneapolis">Minneapolis</a>.</p>
+
+<p>Minnesota is famous for lakes and contains part of the largest lake in the world by surface area,
+    <a class="page-preview-popup" href="https://en.wikipedia.org/wiki/Lake_Superior">Lake Superior<a>. Minnesota is often called the "Land of 10,000 Lakes."</a></a></p>
+
+<!-- CSS is used to set visibility: hidden so this popup is not seen unless we change the visibility with JavaScript.
+
+Even though there are 3 links (and could be any number of links) there is only one popup element.
+Only one popup will be shown at a time so we can re-use the same element. When the user mouses over a link, the popup
+will be moved to their mouse cursor location, and configured to show the link's text and image. -->
+<div id="previewPopup">
+    <div id="previewHTML"></div>
+    <img id="previewImage">  <!-- Can disregard warning about no source since we'll set the source with JavaScript -->
+</div>
+
+<script>
+    
+    // Find the popup div, the preview text div, and image element within
+    let previewPopup = document.querySelector('#previewPopup')
+    let previewPopupHTML = previewPopup.querySelector('#previewHTML')
+    let previewImage = previewPopup.querySelector('#previewImage')
+
+    // Find all the popup links on the page. 
+    let popupLinks = document.querySelectorAll('.page-preview-popup')
+    let previewRequestId = 0
+    
+    // For each popup link, and a mouseover listener. When a link is moused over, make a request 
+    // to get the preview data from wikipedia, customize the popup content, and show the popup. 
+    
+    popupLinks.forEach( function(link) {
+        link.addEventListener('mouseover', function(event) {
+            let requestId = ++previewRequestId
+            let pageName = decodeURIComponent(new URL(link.href).pathname.split('/').pop())
+            let previewURL = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(pageName)}`
+
+            // make API request, wait for response. 
+            fetch(previewURL).then(response => {
+                if (!response.ok) {
+                    throw new Error(`Wikipedia preview request failed: ${response.status}`)
+                }
+                return response.json()
+            }).then(pagePreviewJson => {
+                if (requestId !== previewRequestId) {
+                    return
+                }
+
+                previewPopupHTML.textContent = `${pagePreviewJson.title}\n${pagePreviewJson.extract}`
+                previewImage.hidden = !pagePreviewJson.thumbnail?.source
+                if (pagePreviewJson.thumbnail?.source) {
+                    previewImage.src = pagePreviewJson.thumbnail.source
+                    previewImage.alt = pagePreviewJson.title
+                }
+
+                // position popup where mouse is
+                previewPopup.style.top = event.clientY + 'px'
+                previewPopup.style.left = event.clientX + 'px'
+
+                // make visible
+                previewPopup.style.visibility = 'visible'
+            }).catch(error => {
+                if (requestId === previewRequestId) {
+                    console.error('Unable to load Wikipedia preview:', error)
+                }
+            })
+
+        })
+
+        link.addEventListener('mouseout', function () {
+            previewRequestId++
+            // hide popup and clear content 
+            previewPopup.style.visibility = 'hidden'
+            previewPopupHTML.innerHTML = ''
+            previewImage.src = ''
+            previewImage.alt = ''
+            previewImage.hidden = false
+        })
+    })
+
+</script>
+
+
+
+</body>
+</html>
