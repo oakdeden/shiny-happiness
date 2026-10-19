@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Astronomy Picture of the Day</title>
+
+    <!-- defer means wait for page load - before executing -->
+    <script async defer src="fetch_apod.js"></script>
+</head>
+
+<body>
+
+    <h1 id="apod-title"></h1>
+
+    <div id="apod-explanation"></div>
+
+    <!-- These are both hidden, using CSS, when the page loads
+      to avoid the user seeing a broken image or an empty frame. -->
+    <img id="apod-image">
+    <iframe id="apod-video"></iframe>
+
+</body>
+
+</html>
