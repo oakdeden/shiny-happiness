@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var mustacheExpress = require('mustache-express');
+var expressHandlebars = require('express-handlebars');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -12,8 +12,13 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.engine('mustache', mustacheExpress(path.join(__dirname, 'views', 'partials'), '.mustache'));
-app.set('view engine', 'mustache');
+app.engine('hbs', expressHandlebars.engine({
+  extname: '.hbs',
+  defaultLayout: 'Layout',
+  layoutsDir: path.join(__dirname, 'views'),
+  partialsDir: path.join(__dirname, 'views', 'partials')
+}));
+app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
 app.use(express.json());
