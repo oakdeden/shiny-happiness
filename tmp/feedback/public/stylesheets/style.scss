@@ -1,11 +1,11 @@
 :root {
-  color-scheme: light;
   font-family: "DM Sans", sans-serif;
   color: #20362f;
+  color-scheme: light;
   background: #f3f6f0;
-  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+
   --ink: #20362f;
   --muted: #63746a;
   --line: #d9e2d9;
@@ -21,15 +21,13 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  background:
-    linear-gradient(125deg, transparent 0 72%, rgb(227 237 223 / 75%) 72% 100%),
-    #f3f6f0;
+  background: linear-gradient(125deg, transparent 0 72%, rgb(227 237 223 / 75%) 72% 100%), #f3f6f0;
 }
 
 .page-shell {
   display: grid;
-  min-height: 100vh;
   place-items: center;
+  min-height: 100vh;
   padding: 48px 20px;
 }
 
@@ -44,39 +42,39 @@ body {
 
 .brand-mark {
   display: grid;
+  place-items: center;
   width: 46px;
   height: 46px;
   margin-bottom: 38px;
-  place-items: center;
-  color: #fff;
-  background: var(--ink);
-  font-family: "Manrope", sans-serif;
+  font-family: Manrope, sans-serif;
   font-size: 13px;
   font-weight: 800;
+  color: #fff;
+  background: var(--ink);
 }
 
 .eyebrow {
   margin: 0 0 10px;
-  color: var(--accent);
   font-size: 12px;
   font-weight: 700;
+  color: var(--accent);
 }
 
 h1 {
   margin: 0;
-  color: var(--ink);
-  font-family: "Manrope", sans-serif;
+  font-family: Manrope, sans-serif;
   font-size: 34px;
   font-weight: 700;
   line-height: 1.2;
+  color: var(--ink);
 }
 
 .intro,
 .success-state > p:not(.eyebrow) {
   margin: 12px 0 28px;
-  color: var(--muted);
   font-size: 15px;
   line-height: 1.6;
+  color: var(--muted);
 }
 
 .feedback-form {
@@ -91,21 +89,21 @@ h1 {
 
 .field > label,
 .fieldset legend {
-  color: var(--ink);
   font-size: 14px;
   font-weight: 700;
+  color: var(--ink);
 }
 
 .field input,
 .field textarea {
   width: 100%;
   padding: 12px 14px;
+  font: inherit;
+  font-size: 15px;
   color: var(--ink);
   background: #fbfcfa;
   border: 1px solid #cbd7cc;
   border-radius: 4px;
-  font: inherit;
-  font-size: 15px;
 }
 
 .field textarea {
@@ -115,8 +113,8 @@ h1 {
 
 .field input:focus,
 .field textarea:focus {
-  border-color: var(--accent);
   outline: 3px solid rgb(20 117 83 / 15%);
+  border-color: var(--accent);
 }
 
 .fieldset {
@@ -136,16 +134,16 @@ h1 {
 
 .choice-option {
   display: flex;
-  min-width: 116px;
-  align-items: center;
   gap: 9px;
+  align-items: center;
+  min-width: 116px;
   padding: 11px 14px;
+  font-size: 14px;
   color: var(--ink);
+  cursor: pointer;
   background: #fbfcfa;
   border: 1px solid var(--line);
   border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
 }
 
 .choice-option input {
@@ -157,26 +155,26 @@ h1 {
 
 .field-hint {
   margin: 0;
-  color: var(--muted);
   font-size: 12px;
+  color: var(--muted);
 }
 
 .submit-button,
 .button-link {
   display: inline-flex;
-  min-height: 48px;
   align-items: center;
   justify-content: center;
+  min-height: 48px;
   padding: 0 20px;
-  color: white;
-  background: var(--accent);
-  border: 0;
-  border-radius: 4px;
-  cursor: pointer;
   font: inherit;
   font-size: 14px;
   font-weight: 700;
+  color: white;
   text-decoration: none;
+  cursor: pointer;
+  background: var(--accent);
+  border: 0;
+  border-radius: 4px;
 }
 
 .submit-button:hover,
@@ -187,10 +185,10 @@ h1 {
 .error-summary {
   padding: 14px 18px;
   margin-bottom: 22px;
+  font-size: 14px;
   color: #762c22;
   background: #fff1ec;
   border-left: 3px solid #bd4f3b;
-  font-size: 14px;
 }
 
 .error-summary p {
@@ -209,17 +207,17 @@ h1 {
 
 .success-icon {
   display: grid;
+  place-items: center;
   width: 52px;
   height: 52px;
   margin-bottom: 24px;
-  place-items: center;
+  font-size: 26px;
   color: var(--accent);
   background: #e6f2e9;
   border-radius: 50%;
-  font-size: 26px;
 }
 
-@media (max-width: 520px) {
+@media (width <= 520px) {
   .page-shell {
     padding: 20px 12px;
   }
