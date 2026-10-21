@@ -9,10 +9,10 @@
       <div class="results-header">
         <span class="result-kicker">Calculated BMI</span>
         <div class="bmi-display"><span class="bmi-number">{{bmi}}</span><span class="bmi-label">kg/m²</span></div>
-        {{#category}}<div class="category-badge badge-{{categoryClass}}">{{category}}</div>{{/category}}
+        {{#if category}}<div class="category-badge badge-{{categoryClass}}">{{category}}</div>{{/if}}
       </div>
       <p class="result-text">Your calculated Body Mass Index is <strong class="bmi-highlight">{{bmi}}</strong>.</p>
-      {{#description}}<p class="result-description">{{description}}</p>{{/description}}
+      {{#if description}}<p class="result-description">{{description}}</p>{{/if}}
       <div class="details-summary">
         <div class="detail-item"><span class="detail-label">Height</span><strong class="detail-value">{{height}} m</strong></div>
         <div class="detail-item"><span class="detail-label">Weight</span><strong class="detail-value">{{weight}} kg</strong></div>
@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="form-actions">
-        <a class="btn btn-primary" href="/">
+        <a class="btn btn-primary" href="/body-index/">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="19" y1="12" x2="5" y2="12"></line>
             <polyline points="12 19 5 12 12 5"></polyline>
