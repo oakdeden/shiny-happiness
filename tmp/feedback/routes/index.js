@@ -7,6 +7,8 @@ function renderForm(res, values, errors, statusCode) {
     name: values.name,
     email: values.email,
     studentStatus: values.studentStatus,
+    studentYes: values.studentStatus === 'yes',
+    studentNo: values.studentStatus === 'no',
     comments: values.comments,
     errors: errors || [],
     submitted: false

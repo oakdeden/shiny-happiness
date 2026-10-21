@@ -1,0 +1,63 @@
+<main class="page-shell">
+  <section class="form-panel" aria-labelledby="page-title">
+    <div class="brand-mark">ITEC</div>
+    {{#if submitted}}
+      <div class="success-state" role="status">
+        <div class="success-icon" aria-hidden="true">&#10003;</div>
+        <p class="eyebrow">RESPONSE RECEIVED</p>
+        <h1 id="page-title">Thank you for your feedback.</h1>
+        <p>Your response has been recorded for this session.</p>
+        <a class="button-link" href="/">Submit another response</a>
+      </div>
+    {{else}}
+      <p class="eyebrow">STUDENT SERVICES</p>
+      <h1 id="page-title">Student Feedback</h1>
+      <p class="intro">Share your thoughts with us. All fields are required.</p>
+
+      {{#if errors}}
+        <div class="error-summary" role="alert" aria-live="polite">
+          <p>Please review the following:</p>
+          <ul>
+            {{#each errors}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      {{/if}}
+
+      <form class="feedback-form" action="/" method="POST">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" name="name" value="{{name}}" maxlength="100" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" name="email" value="{{email}}" maxlength="254" autocomplete="email" required>
+        </div>
+
+        <fieldset class="fieldset">
+          <legend>Are you a current student?</legend>
+          <div class="choice-list">
+            <label class="choice-option" for="student-yes">
+              <input id="student-yes" type="radio" name="studentStatus" value="yes" {{#if studentYes}}checked{{/if}} required>
+              <span>Yes</span>
+            </label>
+            <label class="choice-option" for="student-no">
+              <input id="student-no" type="radio" name="studentStatus" value="no" {{#if studentNo}}checked{{/if}} required>
+              <span>No</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <label for="comments">Comments</label>
+          <textarea id="comments" name="comments" rows="6" maxlength="5000" required>{{comments}}</textarea>
+          <p class="field-hint">Maximum 5000 characters.</p>
+        </div>
+
+        <button class="submit-button" type="submit">Send feedback</button>
+      </form>
+    {{/if}}
+  </section>
+</main>
