@@ -7,6 +7,7 @@ router.get('/', function(req, res, next) {
     title: 'Body Mass Index (BMI) Calculator',
     height: '',
     weight: '',
+    showReset: false,
     error: null
   });
 });
@@ -22,6 +23,7 @@ router.get('/calculate', function(req, res, next) {
       title: 'Body Mass Index (BMI) Calculator',
       height: rawHeight || '',
       weight: rawWeight || '',
+      showReset: Boolean(rawHeight || rawWeight),
       error: 'Please enter both height in meters and weight in kilograms.'
     });
   }
@@ -36,6 +38,7 @@ router.get('/calculate', function(req, res, next) {
       title: 'Body Mass Index (BMI) Calculator',
       height: rawHeight,
       weight: rawWeight,
+      showReset: true,
       error: 'Please enter valid positive numbers for height and weight.'
     });
   }
@@ -75,6 +78,10 @@ router.get('/calculate', function(req, res, next) {
     weight: weight,
     category: category,
     categoryClass: categoryClass,
+    isUnderweight: categoryClass === 'underweight',
+    isNormal: categoryClass === 'normal',
+    isOverweight: categoryClass === 'overweight',
+    isObese: categoryClass === 'obese',
     description: description
   });
 });
