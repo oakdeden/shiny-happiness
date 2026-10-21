@@ -1,0 +1,65 @@
+extends layout
+
+block content
+  main.app-container
+    .card
+      header.card-header
+        .badge Calculation Result
+        h1 Body Mass Index Result
+        p.subtitle Your BMI has been calculated based on your height and weight.
+
+      section.results-card(class="result-" + categoryClass)
+        .results-header
+          span.result-kicker Calculated BMI
+          .bmi-display
+            span.bmi-number #{bmi}
+            span.bmi-label kg/m²
+          if category
+            .category-badge(class="badge-" + categoryClass)= category
+
+        p.result-text
+          | Your calculated Body Mass Index is 
+          strong.bmi-highlight #{bmi}
+          | .
+
+        if description
+          p.result-description= description
+
+        .details-summary
+          .detail-item
+            span.detail-label Height
+            strong.detail-value #{height} m
+          .detail-item
+            span.detail-label Weight
+            strong.detail-value #{weight} kg
+          .detail-item
+            span.detail-label Calculated BMI
+            strong.detail-value #{bmi}
+
+        .bmi-scale
+          .scale-header
+            span BMI Categories (WHO Standard)
+          .scale-bar
+            .scale-segment.segment-underweight(class=categoryClass === 'underweight' ? 'active' : '')
+              span.segment-label &lt; 18.5
+              span.segment-name Underweight
+            .scale-segment.segment-normal(class=categoryClass === 'normal' ? 'active' : '')
+              span.segment-label 18.5 – 24.9
+              span.segment-name Normal
+            .scale-segment.segment-overweight(class=categoryClass === 'overweight' ? 'active' : '')
+              span.segment-label 25.0 – 29.9
+              span.segment-name Overweight
+            .scale-segment.segment-obese(class=categoryClass === 'obese' ? 'active' : '')
+              span.segment-label &ge; 30.0
+              span.segment-name Obese
+
+        .form-actions
+          a.btn.btn-primary(href="/")
+            svg(viewBox="0 0 24 24", width="18", height="18", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
+              line(x1="19", y1="12", x2="5", y2="12")
+              polyline(points="12 19 5 12 12 5")
+            span Calculate Again
+
+      footer.card-footer
+        p Standard formula: 
+          code BMI = weight (kg) / [height (m)]²

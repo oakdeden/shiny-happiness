@@ -58,36 +58,8 @@ block content
             svg(viewBox="0 0 24 24", width="18", height="18", fill="none", stroke="currentColor", stroke-width="2", stroke-linecap="round", stroke-linejoin="round")
               line(x1="5", y1="12", x2="19", y2="12")
               polyline(points="12 5 19 12 12 19")
-          if bmi || error
+          if height || weight || error
             a.btn.btn-secondary(href="/") Reset
-
-      if bmi
-        section.results-card(class="result-" + categoryClass)
-          .results-header
-            span.result-kicker Your Calculated BMI
-            .bmi-display
-              span.bmi-number= bmi
-              span.bmi-label kg/m²
-            .category-badge(class="badge-" + categoryClass)= category
-
-          p.result-description= description
-
-          .bmi-scale
-            .scale-header
-              span BMI Categories (WHO Standard)
-            .scale-bar
-              .scale-segment.segment-underweight(class=categoryClass === 'underweight' ? 'active' : '')
-                span.segment-label &lt; 18.5
-                span.segment-name Underweight
-              .scale-segment.segment-normal(class=categoryClass === 'normal' ? 'active' : '')
-                span.segment-label 18.5 – 24.9
-                span.segment-name Normal
-              .scale-segment.segment-overweight(class=categoryClass === 'overweight' ? 'active' : '')
-                span.segment-label 25.0 – 29.9
-                span.segment-name Overweight
-              .scale-segment.segment-obese(class=categoryClass === 'obese' ? 'active' : '')
-                span.segment-label &ge; 30.0
-                span.segment-name Obese
 
       footer.card-footer
         p Standard formula: 
