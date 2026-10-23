@@ -1,7 +1,9 @@
 {
-  "name": "feedback",
-  "version": "0.0.0",
-  "private": true,
+  "name": "student-feedback-server",
+  "version": "1.0.0",
+  "description": "Lab 9",
+  "author": "Oakdeden Arboleda",
+  "main": "server.js",
   "scripts": {
     "start": "node ./bin/www"
   },
