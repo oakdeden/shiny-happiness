@@ -50,6 +50,44 @@ ORDER BY id DESC;
 The database inbox is not exposed as a public web page; deploy this server and its
 database on a host with persistent disk storage to retain submissions.
 
+### Running the Lab 9 Express apps locally
+
+Start each app in its own terminal from its directory:
+
+```bash
+cd tmp/feedback && npm install && npm start
+cd tmp/would-you-rather-express-api && npm install && PORT=3001 node ./server.js
+cd tmp/body && npm install && npm start
+```
+
+The Lab 9 links use ports 3000 (feedback), 3001 (Would You Rather API), and 3002
+(BMI calculator). Start the static site separately with `npm start` from the repository
+root. The Express servers accept a `PORT` environment variable to override their defaults.
+
+### Deploying the Express apps
+
+The `Deploy Express apps to Azure App Service` workflow deploys the feedback, BMI, and
+Would You Rather apps to three existing Linux App Services running Node 20. Create three
+Linux Node 20 web apps in the `shiny-happiness` resource group, in North Central US,
+and on one shared App Service plan (F1, as selected). Then add these GitHub repository variables under
+**Settings → Secrets and variables → Actions → Variables**:
+
+- `AZURE_RESOURCE_GROUP` — `shiny-happiness`
+- `AZURE_WEBAPP_NAME_FEEDBACK` — the feedback App Service name
+- `AZURE_WEBAPP_NAME_BMI` — the BMI App Service name
+- `AZURE_WEBAPP_NAME_WYR` — the Would You Rather App Service name
+
+Add an `AZURE_CREDENTIALS` GitHub Actions secret containing an Azure service-principal
+credential JSON with permission to deploy to the resource group. Do not commit this
+credential. Push changes to `main` affecting an Express app, or run the workflow manually
+from the Actions tab, to deploy. App names are also used to rewrite the Lab 9 links to
+their `https://<name>.azurewebsites.net` addresses in the Azure Static Web Apps and
+GitHub Pages builds.
+
+The workflow enables persistent App Service storage for the feedback app; its SQLite
+file is stored at `/home/data/feedback.sqlite` and the app creates that directory on
+startup. Keep the feedback app on one instance while it uses SQLite.
+
 ## Project layout
 
 ```

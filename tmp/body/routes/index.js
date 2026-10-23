@@ -16,28 +16,29 @@ router.get('/', function(req, res, next) {
 router.get('/calculate', function(req, res, next) {
   var rawHeight = req.query.height;
   var rawWeight = req.query.weight;
+  var heightInput = typeof rawHeight === 'string' ? rawHeight.trim() : '';
+  var weightInput = typeof rawWeight === 'string' ? rawWeight.trim() : '';
 
   // Validate presence of inputs
-  if (rawHeight === undefined || rawWeight === undefined || String(rawHeight).trim() === '' || String(rawWeight).trim() === '') {
+  if (!heightInput || !weightInput) {
     return res.render('index', {
       title: 'Body Mass Index (BMI) Calculator',
-      height: rawHeight || '',
-      weight: rawWeight || '',
-      showReset: Boolean(rawHeight || rawWeight),
+      height: heightInput,
+      weight: weightInput,
+      showReset: Boolean(heightInput || weightInput),
       error: 'Please enter both height in meters and weight in kilograms.'
     });
   }
 
-  // Read form data from the query request
-  const height = parseFloat(rawHeight);
-  const weight = parseFloat(rawWeight);
+  const height = Number(heightInput);
+  const weight = Number(weightInput);
 
   // Validate numeric values and positivity
-  if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+  if (!Number.isFinite(height) || !Number.isFinite(weight) || height <= 0 || weight <= 0) {
     return res.render('index', {
       title: 'Body Mass Index (BMI) Calculator',
-      height: rawHeight,
-      weight: rawWeight,
+      height: heightInput,
+      weight: weightInput,
       showReset: true,
       error: 'Please enter valid positive numbers for height and weight.'
     });
@@ -70,8 +71,7 @@ router.get('/calculate', function(req, res, next) {
   }
 
   // Render the second template with a placeholder for the calculated BMI into two decimal places
-  const templateName = req.query.template || 'results';
-  res.render(templateName, {
+  res.render('results', {
     title: 'BMI Calculation Result',
     bmi: bmi.toFixed(2),
     height: height,

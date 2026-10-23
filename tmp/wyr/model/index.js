@@ -25,11 +25,11 @@ const questions = [
     answer2: 'Visit the future'
   }
 ]
-
+// Function to get a random question from the array
 function randomQuestion() {
   const randomIndex = Math.floor(Math.random() * questions.length)
   const randomQuestion = questions[randomIndex]
   return randomQuestion
 }
-
+// Export the randomQuestion function for use in other files
 module.exports = randomQuestion
