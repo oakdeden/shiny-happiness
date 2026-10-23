@@ -26,6 +26,30 @@ properties into Recess order. Prettier's settings are in [.prettierrc.json](.pre
 Open <http://localhost:8080/> for the assignments index and
 <http://localhost:8080/lab2.html> for Lab 2.
 
+## Student feedback server
+
+The Express feedback app is separate from the static site. Start it with:
+
+```bash
+cd tmp/feedback
+npm install
+npm start
+```
+
+Submit feedback at <http://localhost:3000/feedback/>. Valid submissions are stored
+in `tmp/feedback/data/feedback.sqlite`, outside the public files directory. To use a
+different SQLite file, set `FEEDBACK_DB_PATH` before starting the server. The database
+can be read with a SQLite client, for example:
+
+```sql
+SELECT id, name, email, student_status, comments, created_at
+FROM feedback
+ORDER BY id DESC;
+```
+
+The database inbox is not exposed as a public web page; deploy this server and its
+database on a host with persistent disk storage to retain submissions.
+
 ## Project layout
 
 ```

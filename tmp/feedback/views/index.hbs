@@ -7,7 +7,7 @@
         <p class="eyebrow">RESPONSE RECEIVED</p>
         <h1 id="page-title">Thank you for your feedback.</h1>
         <p>Your response has been recorded for this session.</p>
-        <a class="button-link" href="/">Submit another response</a>
+        <a class="button-link" href="/feedback/">Submit another response</a>
       </div>
     {{else}}
       <p class="eyebrow">STUDENT SERVICES</p>
@@ -25,7 +25,7 @@
         </div>
       {{/if}}
 
-      <form class="feedback-form" action="/" method="POST">
+      <form class="feedback-form" action="/feedback/" method="POST">
         <div class="field">
           <label for="name">Name</label>
           <input id="name" type="text" name="name" value="{{name}}" maxlength="100" autocomplete="name" required>

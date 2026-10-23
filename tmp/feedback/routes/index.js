@@ -1,5 +1,6 @@
 var express = require('express')
 var router = express.Router()
+var saveFeedback = require('../database').saveFeedback
 
 function renderForm(res, values, errors, statusCode) {
   res.status(statusCode || 200).render('index', {
@@ -51,11 +52,15 @@ router.post('/', function (req, res, next) {
     return renderForm(res, values, errors, 400)
   }
 
-  res.render('index', {
-    title: 'Feedback Received',
-    submitted: true,
-    errors: []
-  })
+  saveFeedback(values)
+    .then(function () {
+      res.render('index', {
+        title: 'Feedback Received',
+        submitted: true,
+        errors: []
+      })
+    })
+    .catch(next)
 })
 
 module.exports = router
