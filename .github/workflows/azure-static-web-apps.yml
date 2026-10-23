@@ -28,6 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Configure Express app links
+        env:
+          AZURE_WEBAPP_NAME_FEEDBACK: ${{ vars.AZURE_WEBAPP_NAME_FEEDBACK }}
+          AZURE_WEBAPP_NAME_WYR: ${{ vars.AZURE_WEBAPP_NAME_WYR }}
+          AZURE_WEBAPP_NAME_BMI: ${{ vars.AZURE_WEBAPP_NAME_BMI }}
+          REQUIRE_AZURE_APP_NAMES: ${{ github.ref == 'refs/heads/main' && 'true' || 'false' }}
+        run: node scripts/configure-express-links.js
+
       - name: Build
         run: npm run build
 
