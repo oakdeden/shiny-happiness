@@ -1,6 +1,7 @@
 <main class="page-shell">
   <section class="form-panel" aria-labelledby="page-title">
     <div class="brand-mark">ITEC</div>
+    {{!-- Show confirmation only after the server accepts and saves the submission. --}}
     {{#if submitted}}
       <div class="success-state" role="status">
         <div class="success-icon" aria-hidden="true">&#10003;</div>
@@ -15,6 +16,7 @@
       <p class="intro">Share your thoughts with us. All fields are required.</p>
 
       {{#if errors}}
+        {{!-- Keep validation feedback together so users can fix all issues at once. --}}
         <div class="error-summary" role="alert" aria-live="polite">
           <p>Please review the following:</p>
           <ul>
