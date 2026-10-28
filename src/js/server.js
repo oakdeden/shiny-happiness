@@ -6,8 +6,14 @@ import { generateRecipes } from './recipe-generator.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-const PUBLIC_DIR = path.join(__dirname, 'public')
-const PORT = process.env.PORT || 3000
+const SRC_DIR = path.resolve(__dirname, '..')
+const PORT = process.env.PORT || 3003
+const STATIC_FILES = new Map([
+  ['/', path.join(SRC_DIR, 'generator.html')],
+  ['/generator.css', path.join(SRC_DIR, 'generator.css')],
+  ['/js/app.js', path.join(__dirname, 'app.js')],
+  ['/assets/hero.jpg', path.join(SRC_DIR, 'assets', 'hero.jpg')]
+])
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=UTF-8',
@@ -75,28 +81,18 @@ const server = http.createServer(async (req, res) => {
     return
   }
 
-  // Static File Serving
-  let filePath = path.join(PUBLIC_DIR, url.pathname === '/' ? 'index.html' : url.pathname)
-  // Prevent directory traversal
-  if (!filePath.startsWith(PUBLIC_DIR)) {
-    res.writeHead(403, { 'Content-Type': 'text/plain' })
-    res.end('403 Forbidden')
+  // Serve only the frontend files used by the generator.
+  const filePath = STATIC_FILES.get(url.pathname)
+  if (!filePath) {
+    res.writeHead(404, { 'Content-Type': 'text/plain' })
+    res.end('404 Not Found')
     return
   }
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html for SPA-like navigation if not found
-      const fallbackIndex = path.join(PUBLIC_DIR, 'index.html')
-      fs.readFile(fallbackIndex, (fbErr, content) => {
-        if (fbErr) {
-          res.writeHead(404, { 'Content-Type': 'text/plain' })
-          res.end('404 Not Found')
-          return
-        }
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=UTF-8' })
-        res.end(content)
-      })
+      res.writeHead(404, { 'Content-Type': 'text/plain' })
+      res.end('404 Not Found')
       return
     }
 

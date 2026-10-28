@@ -26,6 +26,17 @@ properties into Recess order. Prettier's settings are in [.prettierrc.json](.pre
 Open <http://localhost:8080/> for the assignments index and
 <http://localhost:8080/lab2.html> for Lab 2.
 
+## Recipe generator
+
+Start the recipe generator with:
+
+```bash
+npm run recipe-generator
+```
+
+Open <http://localhost:3003/> to use the app. Set `GEMINI_API_KEY` in the
+repository's `.env` file to enable recipe generation.
+
 ## Student feedback server
 
 The Express feedback app is separate from the static site. Start it with:

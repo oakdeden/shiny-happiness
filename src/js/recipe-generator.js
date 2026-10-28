@@ -7,12 +7,17 @@ if (typeof process.loadEnvFile === 'function') {
   try {
     process.loadEnvFile()
   } catch {
-    // If not found in current folder, try parent folder
+    // If not found in the current folder, try the app and repository folders.
     try {
-      const parentEnv = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../.env')
-      process.loadEnvFile(parentEnv)
+      const appDirectory = path.dirname(fileURLToPath(import.meta.url))
+      process.loadEnvFile(path.resolve(appDirectory, '.env'))
     } catch {
-      // Ignore if no .env is available
+      try {
+        const appDirectory = path.dirname(fileURLToPath(import.meta.url))
+        process.loadEnvFile(path.resolve(appDirectory, '../../.env'))
+      } catch {
+        // Ignore if no .env is available.
+      }
     }
   }
 }
@@ -54,9 +59,14 @@ export async function generateRecipes(ingredients = [], options = {}) {
   const ai = new GoogleGenAI({ apiKey })
 
   const count = Math.min(Math.max(options.count || 2, 1), 3)
-  const mealType = options.mealType && options.mealType !== 'any' ? `Meal type: ${options.mealType}.` : ''
-  const dietary = options.dietary && options.dietary !== 'none' ? `Dietary preference: ${options.dietary}.` : ''
-  const cookingTime = options.cookingTime && options.cookingTime !== 'any' ? `Cooking time target: ${options.cookingTime}.` : ''
+  const mealType =
+    options.mealType && options.mealType !== 'any' ? `Meal type: ${options.mealType}.` : ''
+  const dietary =
+    options.dietary && options.dietary !== 'none' ? `Dietary preference: ${options.dietary}.` : ''
+  const cookingTime =
+    options.cookingTime && options.cookingTime !== 'any'
+      ? `Cooking time target: ${options.cookingTime}.`
+      : ''
 
   const prompt = `You are an expert culinary chef and recipe developer.
 Given the following provided primary ingredients:
@@ -132,7 +142,9 @@ Do not include any conversational preamble or markdown backticks, return only th
     }
   }
 
-  throw new Error(`Failed to generate recipe with Gemini: ${lastError ? lastError.message : 'Unknown error'}`)
+  throw new Error(
+    `Failed to generate recipe with Gemini: ${lastError ? lastError.message : 'Unknown error'}`
+  )
 }
 
 // Support running directly from CLI: `node recipe-generator.js bread milk eggs`
@@ -154,12 +166,16 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.a
 
   generateRecipes(input, { count: 2 })
     .then(result => {
-      console.log(`\n✨ Successfully generated ${result.recipes.length} recipes using [${result.modelUsed}]:\n`)
+      console.log(
+        `\n✨ Successfully generated ${result.recipes.length} recipes using [${result.modelUsed}]:\n`
+      )
       result.recipes.forEach((r, idx) => {
         console.log(`========================================`)
         console.log(`🍽️  #${idx + 1}: ${r.title}`)
         console.log(`    "${r.tagline}"`)
-        console.log(`    ⏱️  Total: ${r.totalTime} | 👨‍🍳 Difficulty: ${r.difficulty} | 🍽️ Servings: ${r.servings}`)
+        console.log(
+          `    ⏱️  Total: ${r.totalTime} | 👨‍🍳 Difficulty: ${r.difficulty} | 🍽️ Servings: ${r.servings}`
+        )
         console.log(`    🏷️  Tags: ${r.dietaryTags.join(', ')}`)
         console.log(`\n    🛒 Ingredients:`)
         r.allIngredientsWithMeasurements.forEach(ing => console.log(`       • ${ing}`))

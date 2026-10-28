@@ -1,6 +1,6 @@
 import '../scss/styles.scss'
-import '../js/form'
-import { askGemini } from './gemini'
+import './form.js'
+import { askGemini } from './gemini.js'
 
 // Available on the global window object for quick testing / UI integration
 window.askGemini = askGemini

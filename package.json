@@ -10,7 +10,7 @@
     "format": "prettier --write \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
     "format:check": "prettier --check \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
     "test": "npm run lint:css && npm run format:check && npm run build",
-    "recipe-generator": "npm --prefix recipe-generator start"
+    "recipe-generator": "node src/js/server.js"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",

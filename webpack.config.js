@@ -14,10 +14,10 @@ if (typeof process.loadEnvFile === 'function') {
   }
 }
 
-// Every .html file directly in src/ becomes a page — drop a file in and it builds
+// Static-site pages build here; the recipe generator is served by its Node API.
 const pages = fs
   .readdirSync(path.resolve(__dirname, 'src'))
-  .filter(file => file.endsWith('.html'))
+  .filter(file => file.endsWith('.html') && file !== 'generator.html')
   .map(file => path.basename(file, '.html'))
 
 module.exports = {

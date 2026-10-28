@@ -101,7 +101,11 @@ function setupEventListeners() {
         addIngredient(ingredientInput.value)
         ingredientInput.value = ''
       }
-    } else if (e.key === 'Backspace' && ingredientInput.value === '' && state.ingredients.size > 0) {
+    } else if (
+      e.key === 'Backspace' &&
+      ingredientInput.value === '' &&
+      state.ingredients.size > 0
+    ) {
       const items = Array.from(state.ingredients)
       removeIngredient(items[items.length - 1])
     }
@@ -191,7 +195,10 @@ async function handleGenerate() {
 
     state.currentRecipes = data.recipes || []
     renderRecipes(state.currentRecipes, data.modelUsed)
-    showStatus(`✨ Generated ${state.currentRecipes.length} recipes using Gemini (${data.modelUsed})`, 'info')
+    showStatus(
+      `✨ Generated ${state.currentRecipes.length} recipes using Gemini (${data.modelUsed})`,
+      'info'
+    )
 
     // Smooth scroll down to results
     resultsHeader.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -408,7 +415,8 @@ function toggleFavorite(title, btn) {
     btn.textContent = '☆'
   } else {
     const recipeObj =
-      state.currentRecipes.find(r => r.title === title) || state.savedRecipes.find(r => r.title === title)
+      state.currentRecipes.find(r => r.title === title) ||
+      state.savedRecipes.find(r => r.title === title)
     if (recipeObj) {
       state.savedRecipes.push(recipeObj)
       btn.classList.add('active')
@@ -431,7 +439,8 @@ function updateSavedCount() {
 
 async function copyRecipeToClipboard(title, btn) {
   const recipe =
-    state.currentRecipes.find(r => r.title === title) || state.savedRecipes.find(r => r.title === title)
+    state.currentRecipes.find(r => r.title === title) ||
+    state.savedRecipes.find(r => r.title === title)
   if (!recipe) return
 
   const text = `

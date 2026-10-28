@@ -17,17 +17,21 @@ A standalone culinary application powered by **Google Gemini** that invents crea
 ## 🛠️ Quick Start
 
 ### 1. Configure Gemini API Key
+
 Make sure your API key is defined in `.env`:
+
 ```env
 GEMINI_API_KEY="your-gemini-api-key"
 ```
 
 ### 2. Run the Web Application
+
 ```bash
-cd recipe-generator
-npm start
+npm run recipe-generator
 ```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
+
+Open **[http://localhost:3003](http://localhost:3003)** in your browser. The app
+uses the `GEMINI_API_KEY` from the repository root `.env` file.
 
 ---
 
@@ -37,10 +41,10 @@ You can generate recipes directly from the command line:
 
 ```bash
 # Example with bread and milk
-node recipe-generator.js bread milk
+node src/js/recipe-generator.js bread milk
 
 # Example with multiple comma-separated ingredients
-node recipe-generator.js "bread, milk, eggs, cinnamon, honey"
+node src/js/recipe-generator.js "bread, milk, eggs, cinnamon, honey"
 ```
 
 ---
@@ -50,12 +54,12 @@ node recipe-generator.js "bread, milk, eggs, cinnamon, honey"
 Import `generateRecipes` into any Node.js module:
 
 ```javascript
-import { generateRecipes } from './recipe-generator.js'
+import { generateRecipes } from './src/js/recipe-generator.js'
 
 const ingredients = ['bread', 'milk']
 const options = {
-  mealType: 'breakfast',       // 'breakfast' | 'lunch' | 'dinner' | 'dessert' | 'any'
-  dietary: 'vegetarian',        // 'vegetarian' | 'vegan' | 'comfort food' | 'none'
+  mealType: 'breakfast', // 'breakfast' | 'lunch' | 'dinner' | 'dessert' | 'any'
+  dietary: 'vegetarian', // 'vegetarian' | 'vegan' | 'comfort food' | 'none'
   cookingTime: 'under 15 mins', // 'under 15 mins' | 'under 30 mins' | 'any'
   count: 2
 }
@@ -69,16 +73,12 @@ console.log(result.recipes)
 ## 📁 Project Structure
 
 ```
-recipe-generator/
-├── .env                  # API Key configuration
-├── package.json          # Subproject metadata & scripts
-├── recipe-generator.js   # Gemini core library & CLI runner
-├── server.js             # Native Node HTTP server & API endpoint
-├── README.md             # Subproject documentation
-└── public/               # Frontend client app
-    ├── index.html        # Modern semantic HTML5 interface
-    ├── styles.css        # Vanilla CSS with glassmorphic tokens & animations
+src/
+├── generator.html        # Recipe generator interface
+├── generator.css         # Recipe generator styles
+├── assets/hero.jpg       # Gourmet culinary hero image
+└── js/
     ├── app.js            # Reactive tag management & API client
-    └── assets/
-        └── hero.jpg      # Gourmet culinary hero image
+    ├── recipe-generator.js # Gemini core library & CLI runner
+    └── server.js         # Native Node HTTP server & API endpoint
 ```
