@@ -28,13 +28,19 @@ Open <http://localhost:8080/> for the assignments index and
 
 ## Recipe generator
 
-Start the recipe generator with:
+Start the site and recipe API in separate terminals:
+
+```bash
+npm start
+```
 
 ```bash
 npm run recipe-generator
 ```
 
-Open <http://localhost:3003/> to use the app. Set `GEMINI_API_KEY` in the
+Then open <http://localhost:8080/labs.html> and choose Lab 10. The frontend is
+built to `dist/generator.html`, and the development server forwards its API
+requests to the recipe server on port 3003. Set `GEMINI_API_KEY` in the
 repository's `.env` file to enable recipe generation.
 
 ## Student feedback server

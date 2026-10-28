@@ -14,10 +14,10 @@ if (typeof process.loadEnvFile === 'function') {
   }
 }
 
-// Static-site pages build here; the recipe generator is served by its Node API.
+// Every .html file directly in src/ becomes a page — drop a file in and it builds.
 const pages = fs
   .readdirSync(path.resolve(__dirname, 'src'))
-  .filter(file => file.endsWith('.html') && file !== 'generator.html')
+  .filter(file => file.endsWith('.html'))
   .map(file => path.basename(file, '.html'))
 
 module.exports = {
@@ -32,14 +32,16 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, 'dist'),
     port: 8080,
-    hot: true
+    hot: true,
+    proxy: [{ context: ['/api'], target: 'http://localhost:3003' }]
   },
   plugins: [
     ...pages.map(
       page =>
         new HtmlWebpackPlugin({
           template: `./src/${page}.html`,
-          filename: `${page}.html`
+          filename: `${page}.html`,
+          chunks: page === 'generator' ? [] : ['main']
         })
     ),
     new webpack.DefinePlugin({
