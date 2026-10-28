@@ -1,5 +1,5 @@
 function initTreeOrderForm() {
-    console.log("Script loaded successfully");
+  console.log('Script loaded successfully')
   const homeownerNameInput = document.querySelector('#homeowner-name')
   const homeownerHouseNumberInput = document.querySelector('#homeowner-house-number')
   const homeownerStreetNameInput = document.querySelector('#homeowner-street-name')

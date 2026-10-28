@@ -9,9 +9,11 @@
     "lint:css:fix": "stylelint \"src/**/*.{scss,css}\" --fix",
     "format": "prettier --write \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
     "format:check": "prettier --check \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
-    "test": "npm run lint:css && npm run format:check && npm run build"
+    "test": "npm run lint:css && npm run format:check && npm run build",
+    "recipe-generator": "npm --prefix recipe-generator start"
   },
   "dependencies": {
+    "@google/genai": "^2.31.0",
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1"

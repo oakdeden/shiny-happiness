@@ -2,8 +2,17 @@
 
 const fs = require('fs')
 const path = require('path')
+const webpack = require('webpack')
 const autoprefixer = require('autoprefixer')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+if (typeof process.loadEnvFile === 'function') {
+  try {
+    process.loadEnvFile()
+  } catch {
+    // ignore if .env is missing
+  }
+}
 
 // Every .html file directly in src/ becomes a page — drop a file in and it builds
 const pages = fs
@@ -25,13 +34,18 @@ module.exports = {
     port: 8080,
     hot: true
   },
-  plugins: pages.map(
-    page =>
-      new HtmlWebpackPlugin({
-        template: `./src/${page}.html`,
-        filename: `${page}.html`
-      })
-  ),
+  plugins: [
+    ...pages.map(
+      page =>
+        new HtmlWebpackPlugin({
+          template: `./src/${page}.html`,
+          filename: `${page}.html`
+        })
+    ),
+    new webpack.DefinePlugin({
+      'process.env.GEMINI_API_KEY': JSON.stringify(process.env.GEMINI_API_KEY || '')
+    })
+  ],
   module: {
     rules: [
       {

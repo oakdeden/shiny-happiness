@@ -1,6 +1,9 @@
-// Import our custom CSS
 import '../scss/styles.scss'
 import '../js/form'
+import { askGemini } from './gemini'
+
+// Available on the global window object for quick testing / UI integration
+window.askGemini = askGemini
 
 if (document.querySelector('#weather-forecast')) {
   import('../scss/weather.scss')
