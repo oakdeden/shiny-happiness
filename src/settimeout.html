@@ -1,23 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>Hello Interval</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <h1>What time is it?</h1>
     <p id="time"></p>
 
     <script>
+      let timeElement = document.querySelector('#time')
 
-        let timeElement = document.querySelector('#time')
-
-        setInterval( () => {
-            let date = Date()
-            timeElement.innerHTML = date
-        }, 1000)
-
+      setInterval(() => {
+        let date = Date()
+        timeElement.innerHTML = date
+      }, 1000)
     </script>
-
-</body>
+  </body>
 </html>

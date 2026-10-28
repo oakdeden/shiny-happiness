@@ -1,146 +1,189 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Conference Registration Form</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="site-header">
-        <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
-            <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
-            <nav class="nav">
-                <a class="nav-link" href="./labs.html">Labs</a>
-                <a class="nav-link" href="./quizzes.html">Quizzes</a>
-                <a class="nav-link" href="./info.html">Information</a>
-            </nav>
-        </div>
+      <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+        <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+        <nav class="nav">
+          <a class="nav-link" href="./labs.html">Labs</a>
+          <a class="nav-link" href="./quizzes.html">Quizzes</a>
+          <a class="nav-link" href="./info.html">Information</a>
+        </nav>
+      </div>
     </header>
 
     <main class="container py-4">
-        <h1>Conference Registration Form</h1>
+      <h1>Conference Registration Form</h1>
 
-        <form class="row g-3 needs-validation" novalidate>
-            <div class="col-md-6">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" name="name" maxlength="70" required>
-            </div>
+      <form class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" maxlength="70" required />
+        </div>
 
-            <div class="col-md-6">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
+        <div class="col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required />
+        </div>
 
-            <div class="col-md-6">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" required />
+        </div>
 
-            <div class="col-md-6">
-                <label for="tshirt" class="form-label">T-shirt Size</label>
-                <select class="form-select" id="tshirt" name="tshirt" required>
-                    <option value="">Choose...</option>
-                    <option value="small">Small</option>
-                    <option value="medium">Medium</option>
-                    <option value="large">Large</option>
-                </select>
-            </div>
+        <div class="col-md-6">
+          <label for="tshirt" class="form-label">T-shirt Size</label>
+          <select class="form-select" id="tshirt" name="tshirt" required>
+            <option value="">Choose...</option>
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
 
-            <div class="col-md-6">
-                <label for="dob" class="form-label">Date of Birth</label>
-                <input type="date" class="form-control" id="dob" name="dob" required>
-            </div>
+        <div class="col-md-6">
+          <label for="dob" class="form-label">Date of Birth</label>
+          <input type="date" class="form-control" id="dob" name="dob" required />
+        </div>
 
-            <div class="col-md-6">
-                <p class="form-label mb-1">Receive email updates?</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="emailYes" name="emailUpdates" value="yes" required>
-                    <label class="form-check-label" for="emailYes">Yes</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="emailNo" name="emailUpdates" value="no" required>
-                    <label class="form-check-label" for="emailNo">No</label>
-                </div>
-            </div>
+        <div class="col-md-6">
+          <p class="form-label mb-1">Receive email updates?</p>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="emailYes"
+              name="emailUpdates"
+              value="yes"
+              required
+            />
+            <label class="form-check-label" for="emailYes">Yes</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="emailNo"
+              name="emailUpdates"
+              value="no"
+              required
+            />
+            <label class="form-check-label" for="emailNo">No</label>
+          </div>
+        </div>
 
-            <div class="col-md-6">
-                <p class="form-label mb-1">Choose sessions</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="morning" name="sessions" value="morning">
-                    <label class="form-check-label" for="morning">Morning</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="afternoon" name="sessions" value="afternoon">
-                    <label class="form-check-label" for="afternoon">Afternoon</label>
-                </div>
-            </div>
+        <div class="col-md-6">
+          <p class="form-label mb-1">Choose sessions</p>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="morning"
+              name="sessions"
+              value="morning"
+            />
+            <label class="form-check-label" for="morning">Morning</label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="afternoon"
+              name="sessions"
+              value="afternoon"
+            />
+            <label class="form-check-label" for="afternoon">Afternoon</label>
+          </div>
+        </div>
 
-            <div class="col-12">
-                <label for="requests" class="form-label">Special Requests</label>
-                <textarea class="form-control" id="requests" name="requests" rows="7" cols="70"></textarea>
-            </div>
+        <div class="col-12">
+          <label for="requests" class="form-label">Special Requests</label>
+          <textarea
+            class="form-control"
+            id="requests"
+            name="requests"
+            rows="7"
+            cols="70"
+          ></textarea>
+        </div>
 
-            <div class="col-12">
-                <button type="button" class="btn btn-primary" id="registerButton">Submit</button>
-            </div>
-        </form>
+        <div class="col-12">
+          <button type="button" class="btn btn-primary" id="registerButton">Submit</button>
+        </div>
+      </form>
     </main>
 
     <footer class="site-footer">
-        <div class="container">
-            <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
-            <p class="mb-0"><a href="#" onclick="goBack(); return false;">Back</a></p>
-        </div>
+      <div class="container">
+        <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+        <p class="mb-0">
+          <a
+            href="#"
+            onclick="
+              goBack()
+              return false
+            "
+            >Back</a
+          >
+        </p>
+      </div>
     </footer>
     <script>
-        function goBack() {
-            window.history.back();
+      function goBack() {
+        window.history.back()
+      }
+      document.querySelector('#registerButton').addEventListener('click', function () {
+        const form = document.querySelector('form')
+        const name = document.querySelector('#name')
+        const password = document.querySelector('#password')
+        const email = document.querySelector('#email')
+        const tShirt = document.querySelector('#tshirt')
+        const dateOfBirth = document.querySelector('#dob')
+        const morning = document.querySelector('#morning')
+        const afternoon = document.querySelector('#afternoon')
+        const specialRequests = document.querySelector('#requests')
+        const sessionsAttended = []
+
+        if (morning.checked) sessionsAttended.push(morning.value)
+        if (afternoon.checked) sessionsAttended.push(afternoon.value)
+
+        if (
+          !form.checkValidity() ||
+          !name.value.trim() ||
+          !password.value.trim() ||
+          !sessionsAttended.length
+        ) {
+          form.classList.add('was-validated')
+          alert('Please complete all required fields and select at least one session.')
+          return
         }
-        document.querySelector('#registerButton').addEventListener('click', function () {
-            const form = document.querySelector('form');
-            const name = document.querySelector('#name');
-            const password = document.querySelector('#password');
-            const email = document.querySelector('#email');
-            const tShirt = document.querySelector('#tshirt');
-            const dateOfBirth = document.querySelector('#dob');
-            const morning = document.querySelector('#morning');
-            const afternoon = document.querySelector('#afternoon');
-            const specialRequests = document.querySelector('#requests');
-            const sessionsAttended = [];
 
-            if (morning.checked) sessionsAttended.push(morning.value);
-            if (afternoon.checked) sessionsAttended.push(afternoon.value);
+        const registration = {
+          name: name.value,
+          password: password.value,
+          email: email.value,
+          tShirtSize: tShirt.value,
+          dateOfBirth: dateOfBirth.value,
+          receiveEmailUpdates: document.querySelector('#emailYes').checked,
+          sessionsAttended,
+          specialRequests: specialRequests.value
+        }
 
-            if (!form.checkValidity() ||
-                !name.value.trim() ||
-                !password.value.trim() ||
-                !sessionsAttended.length) {
-                form.classList.add('was-validated');
-                alert('Please complete all required fields and select at least one session.');
-                return;
-            }
-
-            const registration = {
-                name: name.value,
-                password: password.value,
-                email: email.value,
-                tShirtSize: tShirt.value,
-                dateOfBirth: dateOfBirth.value,
-                receiveEmailUpdates: document.querySelector('#emailYes').checked,
-                sessionsAttended,
-                specialRequests: specialRequests.value
-            };
-
-            console.log(registration);
-        });
+        console.log(registration)
+      })
     </script>
-</body>
-
+  </body>
 </html>

@@ -1,115 +1,114 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-     <meta charset="UTF-8" />
+  <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-      rel="stylesheet">
-      <title>Lab 7</title>
-    
-  <style>
-    input,
-    select {
-      width: 100%;
-      padding: 5px;
-      margin: 5px 5px 5px 0px;
-      box-sizing: border-box;
-    }
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Lab 7</title>
 
-    input.error,
-    select.error {
-      border: 2px red solid;
-    }
-  </style>
+    <style>
+      input,
+      select {
+        width: 100%;
+        padding: 5px;
+        margin: 5px 5px 5px 0px;
+        box-sizing: border-box;
+      }
 
-</head>
+      input.error,
+      select.error {
+        border: 2px red solid;
+      }
+    </style>
+  </head>
 
-<body>
-  <header class="site-header">
-    <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
-      <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
-      <nav class="nav">
-        <a class="nav-link" href="labs.html">Labs</a>
-        <a class="nav-link" href="quizzes.html">Quizzes</a>
-        <a class="nav-link" href="info.html">Information</a>
-      </nav>
-    </div>
-  </header>
-  <main class="container py-4">
-    <section>
-      <h2> Part 1: Tree Order Form Validation (6 points)</h2>
-    <h1>Minnesota Tree Order Form</h1>
-
-    <p>Enter information to order your tree. All fields are required.</p>
-
-    <h2>Order Information</h2>
-    <form class="row g-3 needs-validation" novalidate>
-      <div class="col-md-6">
-        <label for="homeowner-name">Homeowner Name</label>
-        <input id="homeowner-name" name="homeowner-name">
+  <body>
+    <header class="site-header">
+      <div class="container d-flex flex-wrap p-3 flex-column flex-md-row align-items-center">
+        <a class="site-title navbar-brand me-auto" href="index.html">ITEC</a>
+        <nav class="nav">
+          <a class="nav-link" href="labs.html">Labs</a>
+          <a class="nav-link" href="quizzes.html">Quizzes</a>
+          <a class="nav-link" href="info.html">Information</a>
+        </nav>
       </div>
-      <div class="col-md-6">
-        <label for="homeowner-house-number">House Number</label>
-        <input id="homeowner-house-number" name="homeowner-house-number">
-      </div>
-      <div class="col-md-6">
-        <label for="homeowner-street-name">Street Name</label>
-        <input id="homeowner-street-name"
-          name="homeowner-street-name">
-      </div>
-      <div class="col-md-6">
-        <label for="city">City</label>
-        <input id="city" name="city">
-      </div>
-      <div class="col-md-6">
-        <!-- All orders must be for Minnesota, so this input is not editable -->
-        <label for="state">State</label>
-        <input id="state" name="state" value="Minnesota" disabled>
-      </div>
-      <div class="col-md-6">
-        <label for="zipcode">Zip Code</label>
-        <input id="zipcode" name="zipcode">
-      </div>
-      <div class="col-md-6">
+    </header>
+    <main class="container py-4">
+      <section>
+        <h2>Part 1: Tree Order Form Validation (6 points)</h2>
+        <h1>Minnesota Tree Order Form</h1>
 
-        <label for="tree-type">Tree Type</label>
-        <select id="tree-type">
-          <!-- Unselectable message shown. Since this will be required, it forces the user to actually pick a tree, not just click submit for the default first option -->
-          <option disabled selected value=""> Select a tree </option>
-          <!-- The options that the user will be allowed to select, or choose from -->
-          <option name="tree-type">Cedar</option>
-          <option name="tree-type">Maple</option>
-          <option name="tree-type">Oak</option>
-        </select>
-      </div>
+        <p>Enter information to order your tree. All fields are required.</p>
 
-      <button class="btn btn-primary" id="submit-order" onclick="submitButton">Submit Order</button>
-    </form>
-    <h2>Order Summary</h2>
+        <h2>Order Information</h2>
+        <form class="row g-3 needs-validation" novalidate>
+          <div class="col-md-6">
+            <label for="homeowner-name">Homeowner Name</label>
+            <input id="homeowner-name" name="homeowner-name" />
+          </div>
+          <div class="col-md-6">
+            <label for="homeowner-house-number">House Number</label>
+            <input id="homeowner-house-number" name="homeowner-house-number" />
+          </div>
+          <div class="col-md-6">
+            <label for="homeowner-street-name">Street Name</label>
+            <input id="homeowner-street-name" name="homeowner-street-name" />
+          </div>
+          <div class="col-md-6">
+            <label for="city">City</label>
+            <input id="city" name="city" />
+          </div>
+          <div class="col-md-6">
+            <!-- All orders must be for Minnesota, so this input is not editable -->
+            <label for="state">State</label>
+            <input id="state" name="state" value="Minnesota" disabled />
+          </div>
+          <div class="col-md-6">
+            <label for="zipcode">Zip Code</label>
+            <input id="zipcode" name="zipcode" />
+          </div>
+          <div class="col-md-6">
+            <label for="tree-type">Tree Type</label>
+            <select id="tree-type">
+              <!-- Unselectable message shown. Since this will be required, it forces the user to actually pick a tree, not just click submit for the default first option -->
+              <option disabled selected value="">Select a tree</option>
+              <!-- The options that the user will be allowed to select, or choose from -->
+              <option name="tree-type">Cedar</option>
+              <option name="tree-type">Maple</option>
+              <option name="tree-type">Oak</option>
+            </select>
+          </div>
 
-    <p id="order-summary">
-      <!-- TODO Use JavaScript to display the order information, 
+          <button class="btn btn-primary" id="submit-order" onclick="submitButton">
+            Submit Order
+          </button>
+        </form>
+        <h2>Order Summary</h2>
+
+        <p id="order-summary">
+          <!-- TODO Use JavaScript to display the order information, 
             only if all the required information is entered  -->
-    </p>
-    </section>
-    <section>
-      <h2>Part 2: Conference Registration (6 points)</h2>
-      <a href="registration.html">Registration</a>
-    </section>
-       <section>
-      <h2>In Class Exercise</h2>
-      <a href="wiki.html">Wiki</a>
-    </section>
-  </main>
-  <footer class="site-footer">
-    <div class="container">
-      <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
-    </div>
-  </footer>
-<script src="./js/form.js"></script>
-</body>
-
+        </p>
+      </section>
+      <section>
+        <h2>Part 2: Conference Registration (6 points)</h2>
+        <a href="registration.html">Registration</a>
+      </section>
+      <section>
+        <h2>In Class Exercise</h2>
+        <a href="wiki.html">Wiki</a>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="container">
+        <p class="mb-0">ITEC coursework &mdash; Oak Arboleda</p>
+      </div>
+    </footer>
+    <script src="./js/form.js"></script>
+  </body>
 </html>
