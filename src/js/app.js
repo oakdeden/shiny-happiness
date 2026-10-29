@@ -34,6 +34,7 @@ function init() {
   renderTags()
   updatePresetChips()
   updateSavedCount()
+  updateApiKeyButtonState()
   setupEventListeners()
 }
 
@@ -141,6 +142,12 @@ function setupEventListeners() {
     btnRegenerate.addEventListener('click', handleGenerate)
   }
 
+  // API Key Button (for client-side GitHub Pages execution)
+  const btnApiKey = document.getElementById('btn-api-key')
+  if (btnApiKey) {
+    btnApiKey.addEventListener('click', handleApiKeyConfig)
+  }
+
   // Saved Modal
   btnToggleSaved.addEventListener('click', openSavedModal)
   btnCloseSaved.addEventListener('click', closeSavedModal)
@@ -151,6 +158,147 @@ function setupEventListeners() {
   // Delegate Recipe Card actions (Favorite, Copy, Checklist)
   recipesGrid.addEventListener('click', handleRecipeCardClick)
   savedRecipesContainer.addEventListener('click', handleRecipeCardClick)
+}
+
+function updateApiKeyButtonState() {
+  const btnApiKey = document.getElementById('btn-api-key')
+  if (btnApiKey) {
+    const hasKey = Boolean(localStorage.getItem('gemini_api_key'))
+    btnApiKey.textContent = hasKey ? '🔑 API Key ✓' : '🔑 API Key'
+    btnApiKey.title = hasKey
+      ? 'Gemini API Key configured. Click to view or change.'
+      : 'Click to configure Gemini API Key for GitHub Pages.'
+  }
+}
+
+function handleApiKeyConfig() {
+  const existingKey = localStorage.getItem('gemini_api_key') || ''
+  const displayExisting = existingKey ? `${existingKey.slice(0, 6)}...${existingKey.slice(-4)}` : ''
+  const promptMsg = existingKey
+    ? `Current Gemini API Key: ${displayExisting}\n\nEnter a new Gemini API Key (or leave empty and click OK to remove):`
+    : `Enter your Google Gemini API Key for client-side recipe generation on GitHub Pages:\n\n(Get a free key at https://aistudio.google.com/app/apikey)`
+
+  const result = prompt(promptMsg, existingKey)
+  if (result !== null) {
+    const cleaned = result.trim()
+    if (cleaned) {
+      localStorage.setItem('gemini_api_key', cleaned)
+      updateApiKeyButtonState()
+      showStatus('✅ Gemini API Key saved to browser storage.', 'info')
+    } else {
+      localStorage.removeItem('gemini_api_key')
+      updateApiKeyButtonState()
+      showStatus('ℹ️ Stored Gemini API Key cleared.', 'info')
+    }
+  }
+}
+
+function buildRecipePrompt(ingredients, options = {}) {
+  const count = Math.min(Math.max(options.count || 2, 1), 3)
+  const mealType =
+    options.mealType && options.mealType !== 'any' ? `Meal type: ${options.mealType}.` : ''
+  const dietary =
+    options.dietary && options.dietary !== 'none' ? `Dietary preference: ${options.dietary}.` : ''
+  const cookingTime =
+    options.cookingTime && options.cookingTime !== 'any'
+      ? `Cooking time target: ${options.cookingTime}.`
+      : ''
+
+  return `You are an expert culinary chef and recipe developer.
+Given the following provided primary ingredients:
+${JSON.stringify(ingredients)}
+
+${mealType}
+${dietary}
+${cookingTime}
+
+Create ${count} creative, delicious, and realistic recipe ideas that feature these ingredients prominently.
+You may assume common pantry staples (salt, pepper, butter/oil, sugar, water, basic spices) are available.
+
+Return ONLY a valid JSON object matching this exact structure:
+{
+  "recipes": [
+    {
+      "id": "kebab-case-slug",
+      "title": "Creative Recipe Title",
+      "tagline": "Vibrant 1-sentence description",
+      "category": "Breakfast | Dessert | Savory | Comfort Food",
+      "prepTime": "10 mins",
+      "cookTime": "15 mins",
+      "totalTime": "25 mins",
+      "servings": 2,
+      "difficulty": "Easy | Medium | Advanced",
+      "dietaryTags": ["Vegetarian", "Quick & Easy"],
+      "primaryIngredients": ["bread", "milk"],
+      "pantryIngredients": ["cinnamon", "butter", "sugar"],
+      "allIngredientsWithMeasurements": [
+        "4 slices stale bread",
+        "1 cup warm milk",
+        "1 tbsp melted butter"
+      ],
+      "instructions": [
+        "Step 1 description...",
+        "Step 2 description...",
+        "Step 3 description..."
+      ],
+      "chefTip": "Professional cooking secret or variation tip",
+      "nutritionalHighlight": "Brief calorie/protein/vitamin note"
+    }
+  ]
+}
+Do not include any conversational preamble or markdown backticks, return only the raw JSON.`
+}
+
+async function generateRecipesClientSide(ingredients, options, apiKey) {
+  const prompt = buildRecipePrompt(ingredients, options)
+  const candidateModels = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
+
+  let lastError = null
+
+  for (const model of candidateModels) {
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(apiKey)}`
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }]
+        })
+      })
+
+      const data = await res.json()
+      if (!res.ok) {
+        throw new Error(data.error?.message || `Gemini API returned HTTP ${res.status}`)
+      }
+
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
+      let cleanedJson = rawText.trim()
+      const codeBlockMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)\s*```/i)
+      if (codeBlockMatch) {
+        cleanedJson = codeBlockMatch[1].trim()
+      } else {
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/)
+        if (jsonMatch) {
+          cleanedJson = jsonMatch[0].trim()
+        }
+      }
+
+      const parsed = JSON.parse(cleanedJson)
+      if (parsed && Array.isArray(parsed.recipes)) {
+        return {
+          recipes: parsed.recipes,
+          modelUsed: `${model} (Client Direct)`
+        }
+      }
+    } catch (err) {
+      lastError = err
+      continue
+    }
+  }
+
+  throw new Error(
+    `Direct Gemini API call failed: ${lastError ? lastError.message : 'Unknown error'}`
+  )
 }
 
 // ==========================================================================
@@ -177,34 +325,22 @@ async function handleGenerate() {
     count: 2
   }
 
+  const isPort3003 = window.location.port === '3003'
+  const isLocalhost =
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1' ||
+    window.location.hostname === '0.0.0.0'
+
   try {
-    let res
-    let networkError = null
+    let data = null
+    let modelUsed = ''
 
-    try {
-      res = await fetch('/api/generate-recipe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ingredients: ingredientsList,
-          options
-        })
-      })
-    } catch (err) {
-      networkError = err
-    }
+    // 1. If running locally, attempt to query the local Node recipe-generator server
+    if (isLocalhost) {
+      let res = null
 
-    // If relative endpoint failed (network error, 404, or non-JSON HTML error) and we're on localhost:
-    // Try connecting directly to localhost:3003 (which has CORS enabled)
-    const isPort3003 = window.location.port === '3003'
-    const isLocalhost =
-      window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-
-    const shouldTryDirect = (!res || !res.ok) && !isPort3003 && isLocalhost
-
-    if (shouldTryDirect) {
       try {
-        const directRes = await fetch('http://localhost:3003/api/generate-recipe', {
+        res = await fetch('/api/generate-recipe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -212,48 +348,70 @@ async function handleGenerate() {
             options
           })
         })
-        if (directRes.ok || directRes.headers.get('content-type')?.includes('application/json')) {
-          res = directRes
-          networkError = null
-        }
       } catch {
-        // Direct request also failed, keep original res/error
+        // relative request failed
+      }
+
+      // If relative endpoint didn't respond with JSON and we're not on port 3003, try direct port 3003
+      if ((!res || !res.ok) && !isPort3003) {
+        try {
+          const directRes = await fetch('http://localhost:3003/api/generate-recipe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ingredients: ingredientsList,
+              options
+            })
+          })
+          if (directRes.ok && directRes.headers.get('content-type')?.includes('application/json')) {
+            res = directRes
+          }
+        } catch {
+          // direct request failed
+        }
+      }
+
+      if (res && res.ok && res.headers.get('content-type')?.includes('application/json')) {
+        data = await res.json()
+        modelUsed = data.modelUsed
       }
     }
 
-    if (!res) {
-      throw (
-        networkError ||
-        new Error(
-          'Could not connect to recipe server. Make sure "npm run recipe-generator" is running on port 3003.'
+    // 2. If data was not obtained from local server (e.g. GitHub Pages static host, or local server not running):
+    // Fall back to direct client-side Gemini generation!
+    if (!data) {
+      let apiKey = localStorage.getItem('gemini_api_key') || ''
+      if (!apiKey) {
+        apiKey = prompt(
+          '🔑 GitHub Pages is a static host without a backend server.\n\nPlease enter your Google Gemini API Key to generate recipes directly:\n\n(It will be safely saved in your browser localStorage)'
         )
-      )
-    }
-
-    const contentType = res.headers.get('content-type') || ''
-    let data = null
-
-    if (contentType.includes('application/json')) {
-      data = await res.json()
-    } else {
-      if (!res.ok) {
-        throw new Error(
-          res.status === 404 || res.status === 502 || res.status === 504
-            ? `Recipe server unreachable (HTTP ${res.status}). Make sure the backend is running with "npm run recipe-generator" on port 3003.`
-            : `Server returned HTTP ${res.status}: ${res.statusText || 'Non-JSON response'}`
-        )
+        if (apiKey && apiKey.trim()) {
+          apiKey = apiKey.trim()
+          localStorage.setItem('gemini_api_key', apiKey)
+          updateApiKeyButtonState()
+        }
       }
-      throw new Error('Received unexpected non-JSON response from server.')
-    }
 
-    if (!res.ok) {
-      throw new Error(data?.error || `Failed to generate recipe (HTTP ${res.status}).`)
+      if (!apiKey) {
+        setLoading(false)
+        recipesGrid.innerHTML = ''
+        showStatus(
+          '⚠️ A Gemini API Key is required for GitHub Pages. Click "🔑 API Key" in the header to enter your key.',
+          'error'
+        )
+        return
+      }
+
+      showStatus('✨ Generating recipes directly with Google Gemini AI...', 'info')
+      const clientResult = await generateRecipesClientSide(ingredientsList, options, apiKey)
+      data = { recipes: clientResult.recipes }
+      modelUsed = clientResult.modelUsed
     }
 
     state.currentRecipes = data.recipes || []
-    renderRecipes(state.currentRecipes, data.modelUsed)
+    renderRecipes(state.currentRecipes, modelUsed)
     showStatus(
-      `✨ Generated ${state.currentRecipes.length} recipes using Gemini (${data.modelUsed})`,
+      `✨ Generated ${state.currentRecipes.length} recipes using Gemini (${modelUsed})`,
       'info'
     )
 

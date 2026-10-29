@@ -1,212 +1,247 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gourmet AI Recipe Generator | Powered by Gemini</title>
+    <meta
+      name="description"
+      content="Turn simple ingredients like bread and milk into delicious culinary creations with Gemini AI."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="generator.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gourmet AI Recipe Generator | Powered by Gemini</title>
-  <meta name="description"
-    content="Turn simple ingredients like bread and milk into delicious culinary creations with Gemini AI." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <link rel="stylesheet" href="generator.css" />
-</head>
+  <body>
+    <!-- Background dynamic glow orbs -->
+    <div class="glow-orb orb-1" aria-hidden="true"></div>
+    <div class="glow-orb orb-2" aria-hidden="true"></div>
+    <div class="glow-orb orb-3" aria-hidden="true"></div>
 
-<body>
-  <!-- Background dynamic glow orbs -->
-  <div class="glow-orb orb-1" aria-hidden="true"></div>
-  <div class="glow-orb orb-2" aria-hidden="true"></div>
-  <div class="glow-orb orb-3" aria-hidden="true"></div>
-
-  <header class="app-header">
-    <div class="container header-container">
-      <a href="/" class="brand-logo" id="brand-link">
-        <span class="brand-icon">🍳</span>
-        <span class="brand-text">Pantry<span class="brand-highlight">Gen</span></span>
-      </a>
-      <div class="header-actions">
-        <a href="http://localhost:8080/" class="btn-subtle" id="nav-back-home">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-          Shiny Happiness Home
+    <header class="app-header">
+      <div class="container header-container">
+        <a href="/" class="brand-logo" id="brand-link">
+          <span class="brand-icon">🍳</span>
+          <span class="brand-text">Pantry<span class="brand-highlight">Gen</span></span>
         </a>
-        <button class="btn-pill" id="btn-toggle-saved" aria-label="View Saved Recipes">
-          ⭐ Saved (<span id="saved-count">0</span>)
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="main-content container">
-    <!-- Hero Section -->
-    <section class="hero-card" aria-label="Introduction">
-      <div class="hero-content">
-        <div class="badge-pill"><span class="badge-dot"></span> Powered by Google Gemini</div>
-        <h1 class="hero-title">
-          Transform simple ingredients into <span class="gradient-text">culinary magic</span>
-        </h1>
-        <p class="hero-subtitle">
-          Got an array of leftover ingredients like <strong>bread</strong> and
-          <strong>milk</strong>? Let our AI chef devise gourmet, foolproof recipes with exact
-          measurements and chef secrets.
-        </p>
-      </div>
-      <div class="hero-media">
-        <img src="assets/hero.jpg" alt="Artisanal French toast with warm spiced milk reduction and fresh herbs"
-          class="hero-img" loading="eager" />
-      </div>
-    </section>
-
-    <!-- Generator Workspace -->
-    <section class="generator-workspace" aria-label="Recipe Generator Form">
-      <!-- Ingredients Input Card -->
-      <div class="card glass-panel form-panel">
-        <div class="card-header">
-          <div class="card-title-group">
-            <span class="card-step">01</span>
-            <div>
-              <h2 class="card-heading">What ingredients do you have?</h2>
-              <p class="card-subtext">
-                Add ingredients one by one or click any of the pantry presets below.
-              </p>
-            </div>
-          </div>
-          <button type="button" class="btn-text-danger" id="btn-clear-all" title="Clear all ingredients">
-            Clear All
+        <div class="header-actions">
+          <a href="index.html" class="btn-subtle" id="nav-back-home">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Shiny Happiness Home
+          </a>
+          <button class="btn-pill" id="btn-api-key" aria-label="Configure Gemini API Key">
+            🔑 API Key
+          </button>
+          <button class="btn-pill" id="btn-toggle-saved" aria-label="View Saved Recipes">
+            ⭐ Saved (<span id="saved-count">0</span>)
           </button>
         </div>
+      </div>
+    </header>
 
-        <!-- Tag Input Component -->
-        <div class="tags-input-container" id="tags-container" tabindex="0" role="group"
-          aria-label="Ingredients tag list">
-          <div class="tags-wrapper" id="tags-wrapper">
-            <!-- Dynamically populated tags -->
-          </div>
-          <input type="text" id="ingredient-input" class="ingredient-input"
-            placeholder="Type ingredient (e.g. eggs, cinnamon) and press Enter..." autocomplete="off" />
-        </div>
-
-        <!-- Quick Presets -->
-        <div class="presets-section">
-          <span class="presets-label">Quick Add Presets:</span>
-          <div class="presets-cloud" id="presets-cloud">
-            <button type="button" class="preset-chip active" data-ingredient="bread">
-              + Bread
-            </button>
-            <button type="button" class="preset-chip active" data-ingredient="milk">
-              + Milk
-            </button>
-            <button type="button" class="preset-chip" data-ingredient="eggs">+ Eggs</button>
-            <button type="button" class="preset-chip" data-ingredient="cheese">+ Cheese</button>
-            <button type="button" class="preset-chip" data-ingredient="tomatoes">
-              + Tomatoes
-            </button>
-            <button type="button" class="preset-chip" data-ingredient="chicken">+ Chicken</button>
-            <button type="button" class="preset-chip" data-ingredient="cinnamon">
-              + Cinnamon
-            </button>
-            <button type="button" class="preset-chip" data-ingredient="pasta">+ Pasta</button>
-            <button type="button" class="preset-chip" data-ingredient="honey">+ Honey</button>
-            <button type="button" class="preset-chip" data-ingredient="garlic">+ Garlic</button>
-          </div>
-        </div>
-
-        <!-- Customization Filters -->
-        <div class="preferences-grid">
-          <div class="filter-group">
-            <label for="select-meal-type" class="filter-label">Meal Type</label>
-            <select id="select-meal-type" class="form-select">
-              <option value="any">Any Meal</option>
-              <option value="breakfast">Breakfast & Brunch</option>
-              <option value="lunch">Light Lunch</option>
-              <option value="dinner">Hearty Dinner</option>
-              <option value="dessert">Sweet Dessert</option>
-              <option value="snack">Quick Snack</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="select-dietary" class="filter-label">Dietary Preference</label>
-            <select id="select-dietary" class="form-select">
-              <option value="none">Standard / No Restrictions</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="comfort food">Cozy Comfort Food</option>
-              <option value="high-protein">High Protein</option>
-              <option value="gluten-free">Gluten-Free Friendly</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="select-time" class="filter-label">Cooking Time</label>
-            <select id="select-time" class="form-select">
-              <option value="any">Any Time</option>
-              <option value="under 15 mins">Lightning Quick (&lt; 15 mins)</option>
-              <option value="under 30 mins">Under 30 mins</option>
-              <option value="weekend project">Take My Time</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Submit CTA -->
-        <div class="cta-bar">
-          <button type="button" id="btn-generate" class="btn-primary-gradient">
-            <span class="btn-icon">✨</span>
-            <span class="btn-text">Generate Recipes with Gemini</span>
-          </button>
-          <p class="cta-note" id="cta-note">
-            Gemini will invent 2 tailor-made recipes from your list.
+    <main class="main-content container">
+      <!-- Hero Section -->
+      <section class="hero-card" aria-label="Introduction">
+        <div class="hero-content">
+          <div class="badge-pill"><span class="badge-dot"></span> Powered by Google Gemini</div>
+          <h1 class="hero-title">
+            Transform simple ingredients into <span class="gradient-text">culinary magic</span>
+          </h1>
+          <p class="hero-subtitle">
+            Got an array of leftover ingredients like <strong>bread</strong> and
+            <strong>milk</strong>? Let our AI chef devise gourmet, foolproof recipes with exact
+            measurements and chef secrets.
           </p>
         </div>
-      </div>
-    </section>
-
-    <!-- Status / Alerts -->
-    <div id="status-container" class="status-container" aria-live="polite"></div>
-
-    <!-- Results Display Section -->
-    <section id="results-section" class="results-section" aria-label="Generated Recipes">
-      <div class="results-header" id="results-header" style="display: none">
-        <div>
-          <h2 class="section-title">Created Recipes</h2>
-          <p class="section-subtitle" id="results-meta-text">Crafted by AI chef</p>
+        <div class="hero-media">
+          <img
+            src="assets/hero.jpg"
+            alt="Artisanal French toast with warm spiced milk reduction and fresh herbs"
+            class="hero-img"
+            loading="eager"
+          />
         </div>
-        <button type="button" class="btn-subtle" id="btn-regenerate" title="Generate alternate variations">
-          🔄 Regenerate Variations
-        </button>
-      </div>
+      </section>
 
-      <div id="recipes-grid" class="recipes-grid">
-        <!-- Populated by JavaScript -->
-      </div>
-    </section>
+      <!-- Generator Workspace -->
+      <section class="generator-workspace" aria-label="Recipe Generator Form">
+        <!-- Ingredients Input Card -->
+        <div class="card glass-panel form-panel">
+          <div class="card-header">
+            <div class="card-title-group">
+              <span class="card-step">01</span>
+              <div>
+                <h2 class="card-heading">What ingredients do you have?</h2>
+                <p class="card-subtext">
+                  Add ingredients one by one or click any of the pantry presets below.
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn-text-danger"
+              id="btn-clear-all"
+              title="Clear all ingredients"
+            >
+              Clear All
+            </button>
+          </div>
 
-    <!-- Saved Favorites Drawer / Modal -->
-    <section id="saved-modal" class="modal-backdrop" aria-hidden="true" style="display: none">
-      <div class="modal-card glass-panel" role="dialog" aria-labelledby="saved-modal-title">
-        <div class="modal-header">
-          <h2 id="saved-modal-title" class="modal-title">⭐ Your Saved Recipes</h2>
-          <button type="button" class="btn-close" id="btn-close-saved" aria-label="Close modal">
-            &times;
+          <!-- Tag Input Component -->
+          <div
+            class="tags-input-container"
+            id="tags-container"
+            tabindex="0"
+            role="group"
+            aria-label="Ingredients tag list"
+          >
+            <div class="tags-wrapper" id="tags-wrapper">
+              <!-- Dynamically populated tags -->
+            </div>
+            <input
+              type="text"
+              id="ingredient-input"
+              class="ingredient-input"
+              placeholder="Type ingredient (e.g. eggs, cinnamon) and press Enter..."
+              autocomplete="off"
+            />
+          </div>
+
+          <!-- Quick Presets -->
+          <div class="presets-section">
+            <span class="presets-label">Quick Add Presets:</span>
+            <div class="presets-cloud" id="presets-cloud">
+              <button type="button" class="preset-chip active" data-ingredient="bread">
+                + Bread
+              </button>
+              <button type="button" class="preset-chip active" data-ingredient="milk">
+                + Milk
+              </button>
+              <button type="button" class="preset-chip" data-ingredient="eggs">+ Eggs</button>
+              <button type="button" class="preset-chip" data-ingredient="cheese">+ Cheese</button>
+              <button type="button" class="preset-chip" data-ingredient="tomatoes">
+                + Tomatoes
+              </button>
+              <button type="button" class="preset-chip" data-ingredient="chicken">+ Chicken</button>
+              <button type="button" class="preset-chip" data-ingredient="cinnamon">
+                + Cinnamon
+              </button>
+              <button type="button" class="preset-chip" data-ingredient="pasta">+ Pasta</button>
+              <button type="button" class="preset-chip" data-ingredient="honey">+ Honey</button>
+              <button type="button" class="preset-chip" data-ingredient="garlic">+ Garlic</button>
+            </div>
+          </div>
+
+          <!-- Customization Filters -->
+          <div class="preferences-grid">
+            <div class="filter-group">
+              <label for="select-meal-type" class="filter-label">Meal Type</label>
+              <select id="select-meal-type" class="form-select">
+                <option value="any">Any Meal</option>
+                <option value="breakfast">Breakfast & Brunch</option>
+                <option value="lunch">Light Lunch</option>
+                <option value="dinner">Hearty Dinner</option>
+                <option value="dessert">Sweet Dessert</option>
+                <option value="snack">Quick Snack</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="select-dietary" class="filter-label">Dietary Preference</label>
+              <select id="select-dietary" class="form-select">
+                <option value="none">Standard / No Restrictions</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="comfort food">Cozy Comfort Food</option>
+                <option value="high-protein">High Protein</option>
+                <option value="gluten-free">Gluten-Free Friendly</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="select-time" class="filter-label">Cooking Time</label>
+              <select id="select-time" class="form-select">
+                <option value="any">Any Time</option>
+                <option value="under 15 mins">Lightning Quick (&lt; 15 mins)</option>
+                <option value="under 30 mins">Under 30 mins</option>
+                <option value="weekend project">Take My Time</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Submit CTA -->
+          <div class="cta-bar">
+            <button type="button" id="btn-generate" class="btn-primary-gradient">
+              <span class="btn-icon">✨</span>
+              <span class="btn-text">Generate Recipes with Gemini</span>
+            </button>
+            <p class="cta-note" id="cta-note">
+              Gemini will invent 2 tailor-made recipes from your list.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Status / Alerts -->
+      <div id="status-container" class="status-container" aria-live="polite"></div>
+
+      <!-- Results Display Section -->
+      <section id="results-section" class="results-section" aria-label="Generated Recipes">
+        <div class="results-header" id="results-header" style="display: none">
+          <div>
+            <h2 class="section-title">Created Recipes</h2>
+            <p class="section-subtitle" id="results-meta-text">Crafted by AI chef</p>
+          </div>
+          <button
+            type="button"
+            class="btn-subtle"
+            id="btn-regenerate"
+            title="Generate alternate variations"
+          >
+            🔄 Regenerate Variations
           </button>
         </div>
-        <div id="saved-recipes-container" class="saved-recipes-list">
-          <!-- Populated dynamically -->
+
+        <div id="recipes-grid" class="recipes-grid">
+          <!-- Populated by JavaScript -->
         </div>
+      </section>
+
+      <!-- Saved Favorites Drawer / Modal -->
+      <section id="saved-modal" class="modal-backdrop" aria-hidden="true" style="display: none">
+        <div class="modal-card glass-panel" role="dialog" aria-labelledby="saved-modal-title">
+          <div class="modal-header">
+            <h2 id="saved-modal-title" class="modal-title">⭐ Your Saved Recipes</h2>
+            <button type="button" class="btn-close" id="btn-close-saved" aria-label="Close modal">
+              &times;
+            </button>
+          </div>
+          <div id="saved-recipes-container" class="saved-recipes-list">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="container footer-content">
+        <p>Built with Google Gemini &bull; ITEC shiny-happiness Project &bull; Oak Arboleda</p>
       </div>
-    </section>
-  </main>
+    </footer>
 
-  <footer class="app-footer">
-    <div class="container footer-content">
-      <p>Built with Google Gemini &bull; ITEC shiny-happiness Project &bull; Oak Arboleda</p>
-    </div>
-  </footer>
-
-  <script src="js/app.js" type="module"></script>
-</body>
-
+    <script src="js/app.js" type="module"></script>
+  </body>
 </html>
