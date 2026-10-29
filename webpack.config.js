@@ -33,7 +33,7 @@ module.exports = {
     static: path.resolve(__dirname, 'dist'),
     port: 8080,
     hot: true,
-    proxy: [{ context: ['/api'], target: 'http://localhost:3003' }]
+    proxy: [{ context: ['/api'], target: 'http://localhost:3003', changeOrigin: true }]
   },
   plugins: [
     ...pages.map(

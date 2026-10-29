@@ -123,8 +123,17 @@ Do not include any conversational preamble or markdown backticks, return only th
       })
 
       const rawText = response.text || ''
-      // Strip markdown code fences if present
-      const cleanedJson = rawText.replace(/```(?:json)?\s*([\s\S]*?)\s*```/, '$1').trim()
+      // Extract JSON from markdown code fences or raw object text
+      let cleanedJson = rawText.trim()
+      const codeBlockMatch = rawText.match(/```(?:json)?\s*([\s\S]*?)\s*```/i)
+      if (codeBlockMatch) {
+        cleanedJson = codeBlockMatch[1].trim()
+      } else {
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/)
+        if (jsonMatch) {
+          cleanedJson = jsonMatch[0].trim()
+        }
+      }
       const parsed = JSON.parse(cleanedJson)
 
       if (parsed && Array.isArray(parsed.recipes)) {

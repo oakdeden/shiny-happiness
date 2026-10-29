@@ -10,8 +10,11 @@ const SRC_DIR = path.resolve(__dirname, '..')
 const PORT = process.env.PORT || 3003
 const STATIC_FILES = new Map([
   ['/', path.join(SRC_DIR, 'generator.html')],
+  ['/generator.html', path.join(SRC_DIR, 'generator.html')],
   ['/generator.css', path.join(SRC_DIR, 'generator.css')],
+  ['/assets/generator.css', path.join(SRC_DIR, 'generator.css')],
   ['/js/app.js', path.join(__dirname, 'app.js')],
+  ['/assets/app.js', path.join(__dirname, 'app.js')],
   ['/assets/hero.jpg', path.join(SRC_DIR, 'assets', 'hero.jpg')]
 ])
 

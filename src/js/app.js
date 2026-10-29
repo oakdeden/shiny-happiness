@@ -178,19 +178,76 @@ async function handleGenerate() {
   }
 
   try {
-    const res = await fetch('/api/generate-recipe', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        ingredients: ingredientsList,
-        options
-      })
-    })
+    let res
+    let networkError = null
 
-    const data = await res.json()
+    try {
+      res = await fetch('/api/generate-recipe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ingredients: ingredientsList,
+          options
+        })
+      })
+    } catch (err) {
+      networkError = err
+    }
+
+    // If relative endpoint failed (network error, 404, or non-JSON HTML error) and we're on localhost:
+    // Try connecting directly to localhost:3003 (which has CORS enabled)
+    const isPort3003 = window.location.port === '3003'
+    const isLocalhost =
+      window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+
+    const shouldTryDirect = (!res || !res.ok) && !isPort3003 && isLocalhost
+
+    if (shouldTryDirect) {
+      try {
+        const directRes = await fetch('http://localhost:3003/api/generate-recipe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ingredients: ingredientsList,
+            options
+          })
+        })
+        if (directRes.ok || directRes.headers.get('content-type')?.includes('application/json')) {
+          res = directRes
+          networkError = null
+        }
+      } catch {
+        // Direct request also failed, keep original res/error
+      }
+    }
+
+    if (!res) {
+      throw (
+        networkError ||
+        new Error(
+          'Could not connect to recipe server. Make sure "npm run recipe-generator" is running on port 3003.'
+        )
+      )
+    }
+
+    const contentType = res.headers.get('content-type') || ''
+    let data = null
+
+    if (contentType.includes('application/json')) {
+      data = await res.json()
+    } else {
+      if (!res.ok) {
+        throw new Error(
+          res.status === 404 || res.status === 502 || res.status === 504
+            ? `Recipe server unreachable (HTTP ${res.status}). Make sure the backend is running with "npm run recipe-generator" on port 3003.`
+            : `Server returned HTTP ${res.status}: ${res.statusText || 'Non-JSON response'}`
+        )
+      }
+      throw new Error('Received unexpected non-JSON response from server.')
+    }
 
     if (!res.ok) {
-      throw new Error(data.error || 'Failed to generate recipe.')
+      throw new Error(data?.error || `Failed to generate recipe (HTTP ${res.status}).`)
     }
 
     state.currentRecipes = data.recipes || []
