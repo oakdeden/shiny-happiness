@@ -251,7 +251,13 @@ Do not include any conversational preamble or markdown backticks, return only th
 
 async function generateRecipesClientSide(ingredients, options, apiKey) {
   const prompt = buildRecipePrompt(ingredients, options)
-  const candidateModels = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
+  const candidateModels = [
+    'gemini-3.8-flash',
+    'gemini-3.5-flash',
+    'gemini-3.7-flash',
+    'gemini-flash-latest',
+    'gemini-2.5-flash'
+  ]
 
   let lastError = null
 

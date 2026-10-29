@@ -7,10 +7,10 @@ const ai = new GoogleGenAI({ apiKey })
 /**
  * Generate text content using Gemini
  * @param {string} prompt
- * @param {string} [model='gemini-2.5-flash']
+ * @param {string} [model='gemini-3.8-flash']
  * @returns {Promise<string>}
  */
-export async function askGemini(prompt, model = 'gemini-2.5-flash') {
+export async function askGemini(prompt, model = 'gemini-3.8-flash') {
   if (!apiKey) {
     throw new Error('GEMINI_API_KEY is not set. Please check your .env file.')
   }
