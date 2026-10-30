@@ -60,6 +60,14 @@ module.exports = {
         type: 'asset/resource'
       },
       {
+        // Emit generator.css (plain CSS, not SCSS) as a standalone file so
+        // html-loader can rewrite the <link href> and GitHub Pages can serve it.
+        // This rule only applies to files inside src/ that are NOT under scss/.
+        test: /\.css$/i,
+        include: path.resolve(__dirname, 'src'),
+        type: 'asset/resource'
+      },
+      {
         test: /\.(scss)$/,
         use: [
           {
