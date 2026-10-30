@@ -22,9 +22,14 @@ const pages = fs
 
 module.exports = {
   mode: 'development',
-  entry: './src/js/main.js',
+  entry: {
+    main: './src/js/main.js',
+    // Generator app script — built as its own chunk so HtmlWebpackPlugin can
+    // inject the correctly-hashed <script> into generator.html automatically.
+    'generator-app': './src/js/app.js'
+  },
   output: {
-    filename: 'main.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'assets/[name].[contenthash:8][ext]',
     clean: true
@@ -41,7 +46,7 @@ module.exports = {
         new HtmlWebpackPlugin({
           template: `./src/${page}.html`,
           filename: `${page}.html`,
-          chunks: page === 'generator' ? [] : ['main']
+          chunks: page === 'generator' ? ['generator-app'] : ['main']
         })
     ),
     new webpack.DefinePlugin({
