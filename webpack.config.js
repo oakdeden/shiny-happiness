@@ -60,13 +60,6 @@ module.exports = {
         type: 'asset/resource'
       },
       {
-        // Emit plain .css files (e.g. generator.css) referenced via <link> in HTML
-        // html-loader rewrites the href to the hashed output path automatically
-        test: /\.css$/i,
-        resourceQuery: /asset/, // only match ?asset imports (html-loader uses this)
-        type: 'asset/resource'
-      },
-      {
         test: /\.(scss)$/,
         use: [
           {
