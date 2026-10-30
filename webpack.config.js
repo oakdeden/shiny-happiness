@@ -26,7 +26,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    assetModuleFilename: 'assets/[name][ext]',
+    assetModuleFilename: 'assets/[name].[contenthash:8][ext]',
     clean: true
   },
   devServer: {

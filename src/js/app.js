@@ -21,6 +21,8 @@ const resultsMetaText = document.getElementById('results-meta-text')
 const selectMealType = document.getElementById('select-meal-type')
 const selectDietary = document.getElementById('select-dietary')
 const selectTime = document.getElementById('select-time')
+const inputServings = document.getElementById('input-servings')
+const equipmentChips = document.getElementById('equipment-chips')
 const savedModal = document.getElementById('saved-modal')
 const btnToggleSaved = document.getElementById('btn-toggle-saved')
 const btnCloseSaved = document.getElementById('btn-close-saved')
@@ -203,16 +205,24 @@ function buildRecipePrompt(ingredients, options = {}) {
     options.cookingTime && options.cookingTime !== 'any'
       ? `Cooking time target: ${options.cookingTime}.`
       : ''
+  const servings = options.servings && options.servings > 0 ? options.servings : 2
+  const equipment =
+    options.equipment && options.equipment.length > 0
+      ? `Available cooking equipment: ${options.equipment.join(', ')}.`
+      : 'Available cooking equipment: stovetop (standard kitchen setup).'
 
   return `You are an expert culinary chef and recipe developer.
-Given the following provided primary ingredients:
+Given the following provided primary ingredients (these are foods/flavourings only — treat them as cooking ingredients):
 ${JSON.stringify(ingredients)}
 
 ${mealType}
 ${dietary}
 ${cookingTime}
+Scale each recipe for ${servings} serving${servings === 1 ? '' : 's'}.
+${equipment}
 
 Create ${count} creative, delicious, and realistic recipe ideas that feature these ingredients prominently.
+Only suggest cooking methods that require the listed available equipment.
 You may assume common pantry staples (salt, pepper, butter/oil, sugar, water, basic spices) are available.
 
 Return ONLY a valid JSON object matching this exact structure:
@@ -226,7 +236,7 @@ Return ONLY a valid JSON object matching this exact structure:
       "prepTime": "10 mins",
       "cookTime": "15 mins",
       "totalTime": "25 mins",
-      "servings": 2,
+      "servings": ${servings},
       "difficulty": "Easy | Medium | Advanced",
       "dietaryTags": ["Vegetarian", "Quick & Easy"],
       "primaryIngredients": ["bread", "milk"],
@@ -274,7 +284,13 @@ async function generateRecipesClientSide(ingredients, options, apiKey) {
 
       const data = await res.json()
       if (!res.ok) {
-        throw new Error(data.error?.message || `Gemini API returned HTTP ${res.status}`)
+        const errorMsg = data.error?.message || `Gemini API returned HTTP ${res.status}`
+        if (errorMsg.includes('API key') || errorMsg.includes('API_KEY')) {
+          throw new Error(
+            `API key issue: ${errorMsg}. Click "🔑 API Key" in the top bar to update.`
+          )
+        }
+        throw new Error(`[${model}] ${errorMsg}`)
       }
 
       const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || ''
@@ -297,7 +313,11 @@ async function generateRecipesClientSide(ingredients, options, apiKey) {
         }
       }
     } catch (err) {
+      console.warn(`Model ${model} error:`, err.message)
       lastError = err
+      if (err.message.includes('API key issue')) {
+        throw err
+      }
       continue
     }
   }
@@ -324,10 +344,23 @@ async function handleGenerate() {
   showStatus('', '') // clear
   renderSkeletons()
 
+  // Read servings (clamp 1–12, default 2)
+  const servingsRaw = parseInt(inputServings?.value, 10)
+  const servings = Number.isFinite(servingsRaw) ? Math.min(Math.max(servingsRaw, 1), 12) : 2
+
+  // Read checked equipment checkboxes
+  const equipment = equipmentChips
+    ? Array.from(equipmentChips.querySelectorAll('input[type="checkbox"]:checked')).map(
+        cb => cb.value
+      )
+    : []
+
   const options = {
     mealType: selectMealType.value,
     dietary: selectDietary.value,
     cookingTime: selectTime.value,
+    servings,
+    equipment,
     count: 2
   }
 

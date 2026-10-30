@@ -180,6 +180,53 @@
                 <option value="weekend project">Take My Time</option>
               </select>
             </div>
+
+            <div class="filter-group">
+              <label for="input-servings" class="filter-label">Servings</label>
+              <input
+                type="number"
+                id="input-servings"
+                class="form-select"
+                min="1"
+                max="12"
+                value="2"
+                aria-label="Number of servings"
+              />
+            </div>
+          </div>
+
+          <!-- Equipment Available -->
+          <div class="equipment-section">
+            <span class="filter-label">Equipment Available:</span>
+            <div
+              class="equipment-chips"
+              id="equipment-chips"
+              role="group"
+              aria-label="Cooking equipment"
+            >
+              <label class="equipment-chip">
+                <input type="checkbox" value="stovetop" checked /> 🍳 Stovetop
+              </label>
+              <label class="equipment-chip"> <input type="checkbox" value="oven" /> 🔆 Oven </label>
+              <label class="equipment-chip">
+                <input type="checkbox" value="microwave" /> 📡 Microwave
+              </label>
+              <label class="equipment-chip">
+                <input type="checkbox" value="blender" /> 🌀 Blender
+              </label>
+              <label class="equipment-chip">
+                <input type="checkbox" value="air fryer" /> 💨 Air Fryer
+              </label>
+              <label class="equipment-chip">
+                <input type="checkbox" value="slow cooker" /> 🫕 Slow Cooker
+              </label>
+              <label class="equipment-chip">
+                <input type="checkbox" value="grill" /> 🔥 Grill
+              </label>
+              <label class="equipment-chip">
+                <input type="checkbox" value="no cooking (raw only)" /> 🥗 No Cook
+              </label>
+            </div>
           </div>
 
           <!-- Submit CTA -->

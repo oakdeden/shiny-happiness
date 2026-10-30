@@ -545,6 +545,60 @@ body {
 }
 
 /* ==========================================================================
+   Equipment Section
+   ========================================================================== */
+.equipment-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.equipment-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.equipment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: rgb(255 255 255 / 4%);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  user-select: none;
+}
+
+.equipment-chip input[type="checkbox"] {
+  width: 0.9rem;
+  height: 0.9rem;
+  accent-color: #a78bfa;
+  cursor: pointer;
+}
+
+.equipment-chip:hover {
+  color: #a78bfa;
+  background: rgb(167 139 250 / 12%);
+  border-color: rgb(167 139 250 / 30%);
+}
+
+.equipment-chip:has(input:checked) {
+  color: #a78bfa;
+  background: rgb(167 139 250 / 18%);
+  border-color: rgb(167 139 250 / 40%);
+}
+
+/* ==========================================================================
    Preferences Grid
    ========================================================================== */
 .preferences-grid {
