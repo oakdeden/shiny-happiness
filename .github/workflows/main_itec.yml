@@ -1,4 +1,7 @@
-name: Deploy student feedback app to Azure - ITEC
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and deploy student feedback app to Azure - ITEC
 
 on:
   push:
@@ -17,27 +20,53 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
+    name: Build
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up Node.js version
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: npm
           cache-dependency-path: tmp/feedback/package-lock.json
 
-      - name: Install production dependencies
-        run: npm ci --omit=dev
+      - name: Install dependencies, build, and test
+        run: |
+          npm ci
+          npm run build --if-present
+          npm run test --if-present
         working-directory: tmp/feedback
 
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: node-app
+          path: tmp/feedback
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: Production
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: node-app
+
       - name: Deploy to Azure Web App
+        id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: ITEC
           slot-name: Production
-          package: tmp/feedback
+          package: .
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2ADA9EC7F7EF40358CE43F16026F17C7 }}
