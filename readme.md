@@ -83,10 +83,10 @@ root. The Express servers accept a `PORT` environment variable to override their
 
 ### Deploying the student feedback app
 
-The `Deploy student feedback app to Azure - ITEC` workflow deploys `tmp/feedback` to
-the Linux App Service named `ITEC` when that app changes on `main`, or when manually
-run from the Actions tab. Configure the App Service to use Node 20 and add the GitHub
-Actions secret below under **Settings → Secrets and variables → Actions → Secrets**:
+The `Build and deploy student feedback app to Azure - ITEC` workflow builds `tmp/feedback`
+and deploys it to the Linux App Service named `ITEC` when that app changes on `main`,
+or when manually run from the Actions tab. Configure the App Service to use Node 20 and add
+the GitHub Actions secret below under **Settings → Secrets and variables → Actions → Secrets**:
 
 - `AZUREAPPSERVICE_PUBLISHPROFILE_2ADA9EC7F7EF40358CE43F16026F17C7` — the publish
   profile downloaded from the `ITEC` App Service's Deployment Center
