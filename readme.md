@@ -81,29 +81,23 @@ The Lab 9 links use ports 3000 (feedback), 3001 (Would You Rather API), and 3002
 (BMI calculator). Start the static site separately with `npm start` from the repository
 root. The Express servers accept a `PORT` environment variable to override their defaults.
 
-### Deploying the Express apps
+### Deploying the student feedback app
 
-The `Deploy Express apps to Azure App Service` workflow deploys the feedback, BMI, and
-Would You Rather apps to three existing Linux App Services running Node 20. Create three
-Linux Node 20 web apps in the `shiny-happiness` resource group, in North Central US,
-and on one shared App Service plan (F1, as selected). Then add these GitHub repository variables under
-**Settings → Secrets and variables → Actions → Variables**:
+The `Deploy student feedback app to Azure - ITEC` workflow deploys `tmp/feedback` to
+the Linux App Service named `ITEC` when that app changes on `main`, or when manually
+run from the Actions tab. Configure the App Service to use Node 20 and add the GitHub
+Actions secret below under **Settings → Secrets and variables → Actions → Secrets**:
 
-- `AZURE_RESOURCE_GROUP` — `shiny-happiness`
-- `AZURE_WEBAPP_NAME_FEEDBACK` — the feedback App Service name
-- `AZURE_WEBAPP_NAME_BMI` — the BMI App Service name
-- `AZURE_WEBAPP_NAME_WYR` — the Would You Rather App Service name
+- `AZUREAPPSERVICE_PUBLISHPROFILE_2ADA9EC7F7EF40358CE43F16026F17C7` — the publish
+  profile downloaded from the `ITEC` App Service's Deployment Center
 
-Add an `AZURE_CREDENTIALS` GitHub Actions secret containing an Azure service-principal
-credential JSON with permission to deploy to the resource group. Do not commit this
-credential. Push changes to `main` affecting an Express app, or run the workflow manually
-from the Actions tab, to deploy. App names are also used to rewrite the Lab 9 links to
-their `https://<name>.azurewebsites.net` addresses in the Azure Static Web Apps and
-GitHub Pages builds.
+Do not commit the publish profile. In the App Service's **Environment variables**,
+set `FEEDBACK_DB_PATH` to `/home/data/feedback.sqlite` and ensure persistent App
+Service storage is enabled. The app creates the database directory on startup. Keep
+the feedback app on one instance while it uses SQLite.
 
-The workflow enables persistent App Service storage for the feedback app; its SQLite
-file is stored at `/home/data/feedback.sqlite` and the app creates that directory on
-startup. Keep the feedback app on one instance while it uses SQLite.
+The BMI calculator (`tmp/body`) and Would You Rather API (`tmp/wyr`) are not deployed
+by this workflow.
 
 ## Project layout
 
