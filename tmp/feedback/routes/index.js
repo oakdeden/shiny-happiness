@@ -1,6 +1,8 @@
 var express = require('express')
 var router = express.Router()
 var saveFeedback = require('../database').saveFeedback
+var updateFeedbackDepartments = require('../database').updateFeedbackDepartments
+var sortMessage = require('../services/message_sorter').sortMessage
 var adminRouter = require('./admin')
 
 router.use('/admin', adminRouter)
@@ -16,6 +18,14 @@ function renderForm(res, values, errors, statusCode) {
     comments: values.comments,
     errors: errors || [],
     submitted: false
+  })
+}
+
+function renderThankYou(res) {
+  res.render('index', {
+    title: 'Feedback Received',
+    submitted: true,
+    errors: []
   })
 }
 
@@ -55,13 +65,23 @@ router.post('/', function (req, res, next) {
     return renderForm(res, values, errors, 400)
   }
 
+  // 1) Database write — hard failure (user sees an error)
   saveFeedback(values)
-    .then(function () {
-      res.render('index', {
-        title: 'Feedback Received',
-        submitted: true,
-        errors: []
-      })
+    .then(function (feedbackId) {
+      // 2) LLM sort — soft failure (feedback is already saved)
+      return sortMessage(values.comments)
+        .then(function (departments) {
+          // 3) Database update — soft failure
+          return updateFeedbackDepartments(feedbackId, departments).catch(function (err) {
+            console.error('Failed to update feedback departments:', err)
+          })
+        })
+        .catch(function (err) {
+          console.error('Failed to sort feedback with Gemini:', err)
+        })
+        .then(function () {
+          renderThankYou(res)
+        })
     })
     .catch(next)
 })

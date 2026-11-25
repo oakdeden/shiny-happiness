@@ -76,10 +76,17 @@ var ready = Promise.resolve()
         email VARCHAR(254) NOT NULL,
         student_status VARCHAR(3) NOT NULL,
         comments TEXT NOT NULL,
+        departments TEXT NULL,
         created_at VARCHAR(40) NOT NULL,
         CONSTRAINT feedback_student_status_check CHECK (student_status IN ('yes', 'no'))
       )`
     )
+  })
+  .then(function () {
+    // Existing databases created before departments existed.
+    return run('ALTER TABLE feedback ADD COLUMN departments TEXT NULL').catch(function () {
+      // Column already present.
+    })
   })
   .then(function () {
     return run(
@@ -139,10 +146,20 @@ function saveFeedback(values) {
   })
 }
 
+function updateFeedbackDepartments(id, departments) {
+  return ready.then(function () {
+    return run(`UPDATE feedback SET departments = ? WHERE id = ?`, [
+      JSON.stringify(departments || []),
+      id
+    ])
+  })
+}
+
 function getAllFeedback() {
   return ready.then(function () {
     return all(
-      `SELECT id, name, email, student_status AS studentStatus, comments, created_at AS createdAt
+      `SELECT id, name, email, student_status AS studentStatus, comments,
+              departments, created_at AS createdAt
        FROM feedback
        ORDER BY id DESC`
     )
@@ -205,6 +222,7 @@ function saveBodyCalculation(values) {
 module.exports = {
   ready: ready,
   saveFeedback: saveFeedback,
+  updateFeedbackDepartments: updateFeedbackDepartments,
   getAllFeedback: getAllFeedback,
   getRandomWyrQuestion: getRandomWyrQuestion,
   saveBodyCalculation: saveBodyCalculation,
