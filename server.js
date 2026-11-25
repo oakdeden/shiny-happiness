@@ -7,7 +7,7 @@ var expressHandlebars = require('express-handlebars')
 
 var db = require('./tmp/db')
 var feedbackRouter = require('./tmp/feedback/routes')
-var wyrRouter = require('./tmp/wyr/routes')
+var wyrApiRouter = require('./tmp/wyr/routes')
 var bodyRouter = require('./tmp/body/routes')
 
 var app = express()
@@ -67,9 +67,9 @@ app.use(
 
 app.use(express.static(distDir))
 
-// Would You Rather client (static) + JSON API
+// Would You Rather client (static) + JSON API at /api/wyr
 app.use('/would-you-rather', express.static(path.join(__dirname, 'tmp/wyr/public')))
-app.use(wyrRouter)
+app.use('/api', wyrApiRouter)
 
 app.use(function (req, res, next) {
   next(createError(404))

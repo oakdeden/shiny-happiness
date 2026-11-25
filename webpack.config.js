@@ -39,10 +39,11 @@ module.exports = {
     port: 8080,
     hot: true,
     proxy: [
+      { context: ['/api/wyr'], target: 'http://localhost:3001', changeOrigin: true },
       { context: ['/api'], target: 'http://localhost:3003', changeOrigin: true },
       { context: ['/feedback'], target: 'http://localhost:3000', changeOrigin: true },
       {
-        context: ['/would-you-rather', '/wyr'],
+        context: ['/would-you-rather'],
         target: 'http://localhost:3001',
         changeOrigin: true
       },

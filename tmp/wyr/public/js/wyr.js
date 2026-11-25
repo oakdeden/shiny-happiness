@@ -29,7 +29,7 @@
     answer1Btn.disabled = true
     answer2Btn.disabled = true
 
-    return fetch('/wyr', { headers: { Accept: 'application/json' }, cache: 'no-store' })
+    return fetch('/api/wyr', { headers: { Accept: 'application/json' }, cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) {
           throw new Error('Could not load a question (' + response.status + ').')

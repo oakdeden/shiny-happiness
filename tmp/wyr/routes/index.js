@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const apiRouter = express.Router()
 const randomQuestion = require('../model/index')
 
 function sendRandomQuestion(req, res, next) {
@@ -11,7 +11,8 @@ function sendRandomQuestion(req, res, next) {
     .catch(next)
 }
 
-// GET random would-you-rather question as JSON (API only)
-router.get('/wyr', sendRandomQuestion)
+// GET random would-you-rather question as JSON
+// Mounted at /api → full path is /api/wyr
+apiRouter.get('/wyr', sendRandomQuestion)
 
-module.exports = router
+module.exports = apiRouter
