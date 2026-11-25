@@ -1,0 +1,40 @@
+<main class="page-shell">
+  <section class="form-panel admin-panel" aria-labelledby="page-title">
+    <div class="brand-mark">ITEC</div>
+    <p class="eyebrow">ADMIN</p>
+    <h1 id="page-title">Student Feedback</h1>
+
+    {{#if hasFeedback}}
+      <div class="table-wrap">
+        <table class="feedback-table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Current student</th>
+              <th scope="col">Comments</th>
+              <th scope="col">Submitted</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each feedbacks}}
+              <tr>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td>{{studentStatus}}</td>
+                <td>{{comments}}</td>
+                <td>{{createdAt}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    {{else}}
+      <p class="empty-message">No feedback found</p>
+    {{/if}}
+
+    <p class="admin-actions">
+      <a class="button-link" href="/feedback/">Back to feedback form</a>
+    </p>
+  </section>
+</main>

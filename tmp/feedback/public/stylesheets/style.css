@@ -216,6 +216,54 @@ h1 {
   border-radius: 50%;
 }
 
+.admin-panel {
+  width: min(100%, 960px);
+}
+
+.empty-message {
+  margin: 12px 0 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 12px 0 28px;
+}
+
+.feedback-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.feedback-table th,
+.feedback-table td {
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.feedback-table th {
+  font-family: Manrope, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+  background: #f8faf7;
+}
+
+.feedback-table td {
+  color: var(--ink);
+}
+
+.admin-actions {
+  margin: 0;
+}
+
 @media (width <= 520px) {
   .page-shell {
     padding: 20px 12px;

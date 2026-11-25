@@ -1,6 +1,9 @@
 var express = require('express')
 var router = express.Router()
 var saveFeedback = require('../database').saveFeedback
+var adminRouter = require('./admin')
+
+router.use('/admin', adminRouter)
 
 function renderForm(res, values, errors, statusCode) {
   res.status(statusCode || 200).render('index', {

@@ -139,6 +139,16 @@ function saveFeedback(values) {
   })
 }
 
+function getAllFeedback() {
+  return ready.then(function () {
+    return all(
+      `SELECT id, name, email, student_status AS studentStatus, comments, created_at AS createdAt
+       FROM feedback
+       ORDER BY id DESC`
+    )
+  })
+}
+
 var lastWyrId = -1
 
 function getRandomWyrQuestion() {
@@ -195,6 +205,7 @@ function saveBodyCalculation(values) {
 module.exports = {
   ready: ready,
   saveFeedback: saveFeedback,
+  getAllFeedback: getAllFeedback,
   getRandomWyrQuestion: getRandomWyrQuestion,
   saveBodyCalculation: saveBodyCalculation,
   databaseName: process.env.DB_NAME || null
