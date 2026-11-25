@@ -2,7 +2,7 @@ var express = require('express')
 var router = express.Router()
 var getAllFeedback = require('../database').getAllFeedback
 
-router.get('/', function (req, res, next) {
+router.get('/admin', function (req, res, next) {
   getAllFeedback()
     .then(function (feedbacks) {
       res.render('admin', {
