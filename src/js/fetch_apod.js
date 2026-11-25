@@ -3,7 +3,7 @@ const apodExplanation = document.querySelector('#apod-explanation')
 const apodImage = document.querySelector('#apod-image')
 const apodVideo = document.querySelector('#apod-video')
 
-fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
+fetch('https://science.nasa.gov/wp-json/wp/v2/apod-basic')
   .then(response => {
     if (!response.ok) {
       throw new Error(`APOD request failed: ${response.status}`)
@@ -11,15 +11,17 @@ fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY')
     return response.json()
   })
   .then(data => {
-    apodTitle.textContent = data.title
-    apodExplanation.textContent = data.explanation
+    const apod = Array.isArray(data) ? data[0] : data
 
-    if (data.media_type === 'image') {
-      apodImage.src = data.url
-      apodImage.alt = data.title
+    apodTitle.textContent = apod.title
+    apodExplanation.innerHTML = apod.explanation
+
+    if (apod.media_type === 'image') {
+      apodImage.src = apod.hdurl || apod.url
+      apodImage.alt = apod.alt || apod.title
       apodImage.style.display = 'block'
     } else {
-      apodVideo.src = data.url
+      apodVideo.src = apod.url || apod.permalink
       apodVideo.style.display = 'block'
     }
   })
