@@ -1,0 +1,11 @@
+#apod-image,
+#apod-video {
+  display: none;
+  max-width: 100%;
+}
+
+#apod-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}

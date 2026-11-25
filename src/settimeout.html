@@ -1,19 +1,16 @@
 <!doctype html>
 <html>
   <head>
-    <title>Hello Interval</title>
+    <title>Hello Timeout</title>
   </head>
   <body>
     <h1>What time is it?</h1>
-    <p id="time"></p>
+    <p>An alert with the current time will appear after a short delay.</p>
 
     <script>
-      let timeElement = document.querySelector('#time')
-
-      setInterval(() => {
-        let date = Date()
-        timeElement.innerHTML = date
-      }, 1000)
+      setTimeout(() => {
+        alert(Date())
+      }, 2000)
     </script>
   </body>
 </html>

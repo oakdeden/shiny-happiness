@@ -7,6 +7,12 @@ window.askGemini = askGemini
 
 if (document.querySelector('#weather-forecast')) {
   import('../scss/weather.scss')
+  import('./fetch_weather.js')
+}
+
+if (document.querySelector('#apod-title')) {
+  import('../scss/apod.scss')
+  import('./fetch_apod.js')
 }
 
 // Import only the Bootstrap components we need
