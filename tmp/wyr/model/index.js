@@ -1,28 +1,28 @@
 const questions = [
   {
-    question: 'Explore the ocean floor or explore outer space?',
-    answer1: 'Explore the ocean floor',
-    answer2: 'Explore outer space'
+    question: 'Be able to speak every language or play every instrument?',
+    answer1: 'Speak every language',
+    answer2: 'Play every instrument'
   },
   {
-    question: 'Always have perfect weather for picnics or perfect weather for stargazing?',
-    answer1: 'Perfect picnic weather',
-    answer2: 'Perfect stargazing weather'
+    question: 'Have unlimited concert tickets or unlimited plane tickets?',
+    answer1: 'Unlimited concert tickets',
+    answer2: 'Unlimited plane tickets'
   },
   {
-    question: 'Travel anywhere by train or anywhere by hot-air balloon?',
-    answer1: 'Travel by train',
-    answer2: 'Travel by hot-air balloon'
+    question: 'Live in a cabin in the woods or a loft in a busy city?',
+    answer1: 'Cabin in the woods',
+    answer2: 'Loft in a busy city'
   },
   {
-    question: 'Have a tiny robot assistant or a talking pet?',
-    answer1: 'Tiny robot assistant',
-    answer2: 'Talking pet'
+    question: 'Never have to sleep or never have to eat?',
+    answer1: 'Never have to sleep',
+    answer2: 'Never have to eat'
   },
   {
-    question: 'Visit the past for one day or visit the future for one day?',
-    answer1: 'Visit the past',
-    answer2: 'Visit the future'
+    question: 'Only read fiction for a year or only read nonfiction for a year?',
+    answer1: 'Only fiction',
+    answer2: 'Only nonfiction'
   }
 ]
 // Function to get a random question from the array

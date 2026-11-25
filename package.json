@@ -11,7 +11,10 @@
     "format:check": "prettier --check \"src/**/*.{html,scss,css,js}\" \"*.{js,json,md}\" \".github/**/*.yml\"",
     "test": "npm run lint:css && npm run format:check && npm run build",
     "recipe-generator": "node src/js/server.js",
-    "feedback-server": "node tmp/feedback/bin/www"
+    "feedback-server": "node tmp/feedback/bin/www",
+    "body-server": "npm --prefix tmp/body start",
+    "wyr-server": "PORT=3001 node tmp/wyr/server.js",
+    "express-apps": "npm run feedback-server & npm run body-server & npm run wyr-server & wait"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
