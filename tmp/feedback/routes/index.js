@@ -33,7 +33,7 @@ router.get('/', function (req, res, next) {
   renderForm(res, { name: '', email: '', studentStatus: '', comments: '' }, [])
 })
 
-router.post('/', function (req, res, next) {
+router.post('/', async function (req, res, next) {
   function clean(value) {
     return typeof value === 'string' ? value.trim() : ''
   }
@@ -65,25 +65,27 @@ router.post('/', function (req, res, next) {
     return renderForm(res, values, errors, 400)
   }
 
-  // 1) Database write — hard failure (user sees an error)
-  saveFeedback(values)
-    .then(function (feedbackId) {
+  try {
+    // 1) Database write — hard failure (user sees an error)
+    var feedbackId = await saveFeedback(values)
+
+    try {
       // 2) LLM sort — soft failure (feedback is already saved)
-      return sortMessage(values.comments)
-        .then(function (departments) {
-          // 3) Database update — soft failure
-          return updateFeedbackDepartments(feedbackId, departments).catch(function (err) {
-            console.error('Failed to update feedback departments:', err)
-          })
-        })
-        .catch(function (err) {
-          console.error('Failed to sort feedback with Gemini:', err)
-        })
-        .then(function () {
-          renderThankYou(res)
-        })
-    })
-    .catch(next)
+      var departments = await sortMessage(values.comments)
+      try {
+        // 3) Database update — soft failure
+        await updateFeedbackDepartments(feedbackId, departments)
+      } catch (err) {
+        console.error('Failed to update feedback departments:', err)
+      }
+    } catch (err) {
+      console.error('Failed to sort feedback with Gemini:', err)
+    }
+
+    renderThankYou(res)
+  } catch (err) {
+    next(err)
+  }
 })
 
 module.exports = router

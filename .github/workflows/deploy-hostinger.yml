@@ -26,19 +26,15 @@ jobs:
         env:
           HOSTINGER_API_TOKEN: ${{ secrets.HOSTINGER_API_TOKEN }}
         run: |
-          DOMAIN="${{ vars.HOSTINGER_DOMAIN }}"
-          if [ -z "$DOMAIN" ]; then
-            DOMAIN="itec.oakarboleda.codes"
-          fi
-
           MESSAGE="${{ github.event.head_commit.message }}"
           if [ -z "$MESSAGE" ]; then
             MESSAGE="Deploy ${{ github.sha }}"
           fi
           MESSAGE="$(printf '%s' "$MESSAGE" | head -n 1 | cut -c1-72)"
 
+          # Full site (static + /feedback + BMI + WYR) on the itec subdomain only.
           hostinger up . \
-            --domain "$DOMAIN" \
+            --domain "itec.oakarboleda.codes" \
             --type nodejs \
             --app-type express \
             --entry-file server.js \
