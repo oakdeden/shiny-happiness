@@ -25,11 +25,23 @@ const questions = [
     answer2: 'Only nonfiction'
   }
 ]
-// Function to get a random question from the array
+let lastIndex = -1
+
+// Function to get a random question from the array (different from the previous one)
 function randomQuestion() {
-  const randomIndex = Math.floor(Math.random() * questions.length)
-  const randomQuestion = questions[randomIndex]
-  return randomQuestion
+  if (questions.length === 1) {
+    return questions[0]
+  }
+
+  let randomIndex
+  do {
+    randomIndex = Math.floor(Math.random() * questions.length)
+  } while (randomIndex === lastIndex)
+
+  lastIndex = randomIndex
+  return questions[randomIndex]
 }
+
 // Export the randomQuestion function for use in other files
 module.exports = randomQuestion
+
