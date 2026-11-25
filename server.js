@@ -67,7 +67,8 @@ app.use(
 
 app.use(express.static(distDir))
 
-// API routes after static so they do not steal the site homepage
+// Would You Rather client (static) + JSON API
+app.use('/would-you-rather', express.static(path.join(__dirname, 'tmp/wyr/public')))
 app.use(wyrRouter)
 
 app.use(function (req, res, next) {

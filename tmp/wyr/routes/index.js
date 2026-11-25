@@ -11,8 +11,7 @@ function sendRandomQuestion(req, res, next) {
     .catch(next)
 }
 
-// GET random would-you-rather question as JSON
+// GET random would-you-rather question as JSON (API only)
 router.get('/wyr', sendRandomQuestion)
-router.get(['/would-you-rather', '/would-you-rather/'], sendRandomQuestion)
 
 module.exports = router
