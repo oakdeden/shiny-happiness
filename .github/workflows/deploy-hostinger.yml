@@ -1,0 +1,49 @@
+name: Deploy to Hostinger
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: hostinger-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Hostinger CLI
+        run: |
+          curl -fsSL https://github.com/hostinger/api-cli/releases/latest/download/install.sh | sh
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Deploy to Hostinger
+        env:
+          HOSTINGER_API_TOKEN: ${{ secrets.HOSTINGER_API_TOKEN }}
+        run: |
+          DOMAIN="${{ vars.HOSTINGER_DOMAIN }}"
+          if [ -z "$DOMAIN" ]; then
+            DOMAIN="itec.oakarboleda.codes"
+          fi
+
+          MESSAGE="${{ github.event.head_commit.message }}"
+          if [ -z "$MESSAGE" ]; then
+            MESSAGE="Deploy ${{ github.sha }}"
+          fi
+          MESSAGE="$(printf '%s' "$MESSAGE" | head -n 1 | cut -c1-72)"
+
+          hostinger up . \
+            --domain "$DOMAIN" \
+            --type nodejs \
+            --app-type express \
+            --entry-file server.js \
+            --node-version 20 \
+            --build-script build \
+            --yes \
+            --format json \
+            -m "$MESSAGE"
