@@ -38,7 +38,7 @@ async function sortMessage(message) {
     'If there is no good fit, return an empty list.'
 
   var response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.8-flash',
     contents: prompt,
     config: {
       responseMimeType: 'application/json',

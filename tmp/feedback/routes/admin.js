@@ -2,6 +2,20 @@ var express = require('express')
 var router = express.Router()
 var getAllFeedback = require('../database').getAllFeedback
 
+function formatStudentStatus(raw) {
+  var value = raw
+  if (Buffer.isBuffer(raw)) value = raw.toString('utf8')
+  if (typeof value === 'string') value = value.trim().toLowerCase()
+
+  if (value === 'yes' || value === 'y' || value === '1' || value === 1 || value === true) {
+    return 'Yes'
+  }
+  if (value === 'no' || value === 'n' || value === '0' || value === 0 || value === false) {
+    return 'No'
+  }
+  return value ? String(value) : '—'
+}
+
 function formatDepartments(raw) {
   if (!raw) return 'None'
   var list = raw
@@ -23,7 +37,7 @@ router.get('/', function (req, res, next) {
         return {
           name: item.name,
           email: item.email,
-          studentStatus: item.studentStatus === 'yes' ? 'Yes' : 'No',
+          studentStatus: formatStudentStatus(item.studentStatus),
           comments: item.comments,
           departments: formatDepartments(item.departments),
           createdAt: item.createdAt
