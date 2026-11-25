@@ -90,7 +90,7 @@ db.ready
   .then(function () {
     app.listen(port, function () {
       console.log('ITEC site listening on port', port)
-      console.log('SQLite database:', db.databasePath)
+      console.log('MySQL database:', db.databaseName || '(unset)')
     })
   })
   .catch(function (error) {

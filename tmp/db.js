@@ -1,16 +1,15 @@
-var fs = require('fs')
-var path = require('path')
-var sqlite3 = require('sqlite3').verbose()
+var mysql = require('mysql2/promise')
 
-var databasePath = path.resolve(
-  process.env.ITEC_DB_PATH ||
-    process.env.FEEDBACK_DB_PATH ||
-    path.join(__dirname, 'data', 'itec.sqlite')
-)
-
-fs.mkdirSync(path.dirname(databasePath), { recursive: true })
-
-var database = new sqlite3.Database(databasePath)
+// On Hostinger Node apps, use 127.0.0.1 — not srvNNNN.hstgr.io (that host is for remote clients only).
+var pool = mysql.createPool({
+  host: process.env.DB_HOST || 'srv1623.hstgr.io',
+  port: Number(process.env.DB_PORT || 3306),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 5
+})
 
 var seedQuestions = [
   {
@@ -40,62 +39,68 @@ var seedQuestions = [
   }
 ]
 
+function assertConfig() {
+  var missing = ['DB_USER', 'DB_PASSWORD', 'DB_NAME'].filter(function (key) {
+    return !process.env[key]
+  })
+  if (missing.length) {
+    throw new Error('Missing database environment variables: ' + missing.join(', '))
+  }
+}
+
 function run(sql, params) {
-  return new Promise(function (resolve, reject) {
-    database.run(sql, params || [], function (error) {
-      if (error) return reject(error)
-      resolve(this)
-    })
+  return pool.execute(sql, params || []).then(function (result) {
+    return result[0]
   })
 }
 
 function all(sql, params) {
-  return new Promise(function (resolve, reject) {
-    database.all(sql, params || [], function (error, rows) {
-      if (error) return reject(error)
-      resolve(rows)
-    })
+  return pool.execute(sql, params || []).then(function (result) {
+    return result[0]
   })
 }
 
 function get(sql, params) {
-  return new Promise(function (resolve, reject) {
-    database.get(sql, params || [], function (error, row) {
-      if (error) return reject(error)
-      resolve(row)
-    })
+  return all(sql, params).then(function (rows) {
+    return rows[0]
   })
 }
 
-var ready = run(
-  `CREATE TABLE IF NOT EXISTS feedback (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    student_status TEXT NOT NULL CHECK (student_status IN ('yes', 'no')),
-    comments TEXT NOT NULL,
-    created_at TEXT NOT NULL
-  )`
-)
+var ready = Promise.resolve()
+  .then(function () {
+    assertConfig()
+    return run(
+      `CREATE TABLE IF NOT EXISTS feedback (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(254) NOT NULL,
+        student_status VARCHAR(3) NOT NULL,
+        comments TEXT NOT NULL,
+        created_at VARCHAR(40) NOT NULL,
+        CONSTRAINT feedback_student_status_check CHECK (student_status IN ('yes', 'no'))
+      )`
+    )
+  })
   .then(function () {
     return run(
       `CREATE TABLE IF NOT EXISTS wyr_questions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question TEXT NOT NULL UNIQUE,
-        answer1 TEXT NOT NULL,
-        answer2 TEXT NOT NULL
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        question VARCHAR(500) NOT NULL,
+        answer1 VARCHAR(255) NOT NULL,
+        answer2 VARCHAR(255) NOT NULL,
+        UNIQUE KEY wyr_questions_question_unique (question)
       )`
     )
   })
   .then(function () {
     return run(
       `CREATE TABLE IF NOT EXISTS body_calculations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        height REAL NOT NULL,
-        weight REAL NOT NULL,
-        bmi REAL NOT NULL,
-        category TEXT NOT NULL,
-        created_at TEXT NOT NULL
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        height DOUBLE NOT NULL,
+        weight DOUBLE NOT NULL,
+        bmi DOUBLE NOT NULL,
+        category VARCHAR(50) NOT NULL,
+        created_at VARCHAR(40) NOT NULL
       )`
     )
   })
@@ -103,12 +108,12 @@ var ready = run(
     return get('SELECT COUNT(*) AS count FROM wyr_questions')
   })
   .then(function (row) {
-    if (row && row.count > 0) return
+    if (row && Number(row.count) > 0) return
 
     return seedQuestions.reduce(function (chain, item) {
       return chain.then(function () {
         return run(
-          `INSERT OR IGNORE INTO wyr_questions (question, answer1, answer2)
+          `INSERT IGNORE INTO wyr_questions (question, answer1, answer2)
            VALUES (?, ?, ?)`,
           [item.question, item.answer1, item.answer2]
         )
@@ -129,7 +134,7 @@ function saveFeedback(values) {
         new Date().toISOString()
       ]
     ).then(function (result) {
-      return result.lastID
+      return result.insertId
     })
   })
 }
@@ -137,30 +142,36 @@ function saveFeedback(values) {
 var lastWyrId = -1
 
 function getRandomWyrQuestion() {
-  return ready.then(function () {
-    return all('SELECT id, question, answer1, answer2 FROM wyr_questions ORDER BY id')
-  }).then(function (rows) {
-    if (!rows.length) {
-      throw new Error('No would-you-rather questions in the database')
-    }
+  return ready
+    .then(function () {
+      return all('SELECT id, question, answer1, answer2 FROM wyr_questions ORDER BY id')
+    })
+    .then(function (rows) {
+      if (!rows.length) {
+        throw new Error('No would-you-rather questions in the database')
+      }
 
-    if (rows.length === 1) {
-      lastWyrId = rows[0].id
-      return rows[0]
-    }
+      if (rows.length === 1) {
+        lastWyrId = rows[0].id
+        return {
+          question: rows[0].question,
+          answer1: rows[0].answer1,
+          answer2: rows[0].answer2
+        }
+      }
 
-    var choice
-    do {
-      choice = rows[Math.floor(Math.random() * rows.length)]
-    } while (choice.id === lastWyrId)
+      var choice
+      do {
+        choice = rows[Math.floor(Math.random() * rows.length)]
+      } while (choice.id === lastWyrId)
 
-    lastWyrId = choice.id
-    return {
-      question: choice.question,
-      answer1: choice.answer1,
-      answer2: choice.answer2
-    }
-  })
+      lastWyrId = choice.id
+      return {
+        question: choice.question,
+        answer1: choice.answer1,
+        answer2: choice.answer2
+      }
+    })
 }
 
 function saveBodyCalculation(values) {
@@ -176,7 +187,7 @@ function saveBodyCalculation(values) {
         new Date().toISOString()
       ]
     ).then(function (result) {
-      return result.lastID
+      return result.insertId
     })
   })
 }
@@ -186,5 +197,5 @@ module.exports = {
   saveFeedback: saveFeedback,
   getRandomWyrQuestion: getRandomWyrQuestion,
   saveBodyCalculation: saveBodyCalculation,
-  databasePath: databasePath
+  databaseName: process.env.DB_NAME || null
 }
