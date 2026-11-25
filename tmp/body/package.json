@@ -16,5 +16,12 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "sass": "^1.106.1"
+  },
+  "overrides": {
+    "proxy-addr": "2.0.8",
+    "path-to-regexp": "0.1.13",
+    "body-parser": "1.20.9",
+    "qs": "6.14.0",
+    "source-map-js": "1.2.2"
   }
 }
