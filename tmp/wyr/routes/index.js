@@ -14,6 +14,5 @@ function sendRandomQuestion(req, res, next) {
 // GET random would-you-rather question as JSON
 router.get('/wyr', sendRandomQuestion)
 router.get(['/would-you-rather', '/would-you-rather/'], sendRandomQuestion)
-router.get('/', sendRandomQuestion)
 
 module.exports = router

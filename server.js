@@ -65,26 +65,10 @@ app.use(
   })
 )
 
-app.use(wyrRouter)
-
 app.use(express.static(distDir))
 
-app.get('/lab9.html', function (req, res, next) {
-  res.sendFile(path.join(distDir, 'lab9.html'), function (error) {
-    if (error) next(error)
-  })
-})
-
-app.use(function (req, res, next) {
-  if (req.path.includes('.')) {
-    return next(createError(404))
-  }
-
-  var page = path.join(distDir, req.path.replace(/\/$/, '') + '.html')
-  res.sendFile(page, function (error) {
-    if (error) next(createError(404))
-  })
-})
+// API routes after static so they do not steal the site homepage
+app.use(wyrRouter)
 
 app.use(function (req, res, next) {
   next(createError(404))
