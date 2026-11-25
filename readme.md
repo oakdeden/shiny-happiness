@@ -88,9 +88,6 @@ and deploys it to the Linux App Service named `ITEC` when that app changes on `m
 or when manually run from the Actions tab. Configure the App Service to use Node 20 and add
 the GitHub Actions secret below under **Settings → Secrets and variables → Actions → Secrets**:
 
-- `AZUREAPPSERVICE_PUBLISHPROFILE_2ADA9EC7F7EF40358CE43F16026F17C7` — the publish
-  profile downloaded from the `ITEC` App Service's Deployment Center
-
 Do not commit the publish profile. In the App Service's **Environment variables**,
 set `FEEDBACK_DB_PATH` to `/home/data/feedback.sqlite` and ensure persistent App
 Service storage is enabled. The app creates the database directory on startup. Keep
